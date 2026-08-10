@@ -1,0 +1,40 @@
+{
+  "id": "./",
+  "name": "English Pathways Mobile",
+  "short_name": "Pathways",
+  "description": "A1\u2013C2 English learning, voice practice, dictionary, progress tracking and examinations.",
+  "lang": "en",
+  "start_url": "./index.html?installed=1",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+  "orientation": "any",
+  "background_color": "#edf2f7",
+  "theme_color": "#145e68",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

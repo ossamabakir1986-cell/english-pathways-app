@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#145e68">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="English Pathways">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="description" content="English Pathways mobile learning app: A1–C2 lessons, voice practice, exams, dictionary and progress tracking.">
+  <title>English Pathways</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="mobile-app.css">
+</head>
+<body data-view="loading">
+  <header class="topbar appTopbar">
+    <button id="homeBtn" class="brand" aria-label="Home"><span>EP</span><b>English Pathways</b></button>
+    <nav class="desktopNav" aria-label="Main navigation">
+      <button id="courseBtn">Course</button>
+      <button id="dictBtn">Dictionary</button>
+      <button id="updateBtn">Updates</button>
+    </nav>
+    <div class="topActions">
+      <span id="connectionPill" class="connectionPill" hidden>Offline</span>
+      <button id="installTopBtn" class="installTopBtn" type="button">Install</button>
+      <button id="themeBtn" aria-label="Change theme">◐</button>
+    </div>
+  </header>
+
+  <main id="screen"></main>
+  <aside id="drawer" aria-label="Dictionary"></aside>
+  <div id="popup" hidden></div>
+  <div id="modal"></div>
+  <div id="installSheet" class="installSheet" hidden></div>
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <nav id="bottomTabs" class="bottomTabs" aria-label="App tabs">
+    <button type="button" data-mobile-view="dashboard" aria-label="Home">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.2 12 4l9 7.2v8.3a.5.5 0 0 1-.5.5h-5.4v-6H8.9v6H3.5a.5.5 0 0 1-.5-.5z"/></svg><span>Home</span>
+    </button>
+    <button type="button" data-mobile-view="course" aria-label="Learn">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4.5c2.8-.7 5.2-.3 8 1.2v14c-2.8-1.5-5.2-1.9-8-1.2zm16 0c-2.8-.7-5.2-.3-8 1.2v14c2.8-1.5 5.2-1.9 8-1.2z"/></svg><span>Learn</span>
+    </button>
+    <button type="button" data-mobile-action="dictionary" aria-label="Dictionary">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m14.5 14.5 5 5"/></svg><span>Dictionary</span>
+    </button>
+    <button type="button" data-mobile-view="progress" aria-label="Progress">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V9m7 10V5m7 14v-7"/></svg><span>Progress</span>
+    </button>
+    <button type="button" data-mobile-view="more" aria-label="More">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><span>More</span>
+    </button>
+  </nav>
+
+  <script src="jszip.min.js"></script>
+  <script src="config.js"></script>
+  <script src="course-data.js"></script>
+  <script src="dictionary.js"></script>
+  <script src="prompts.js"></script>
+  <script src="app.js"></script>
+  <script src="mobile-app.js"></script>
+</body>
+</html>

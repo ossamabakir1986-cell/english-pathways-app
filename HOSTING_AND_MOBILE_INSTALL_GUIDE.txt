@@ -1,0 +1,31 @@
+ENGLISH PATHWAYS MOBILE APP — HOSTING / INSTALLATION GUIDE
+
+WHAT THIS PACKAGE IS
+This is an installable Progressive Web App (PWA). It becomes a real Home Screen app after the folder is uploaded to a normal HTTPS website.
+
+IMPORTANT
+- Students do NOT need Python once hosted.
+- Microphone access on phones requires HTTPS.
+- Keep all files and folders together when uploading.
+- The configured Google Apps Script teacher endpoint is already in config.js.
+- The end-of-level exam package includes the exam speaking recording and writing.
+- Course backup packages include all saved lesson recordings.
+
+DEPLOY
+1. Upload the complete contents of this folder to an HTTPS static web host.
+2. Make index.html the root page.
+3. Open the HTTPS address on a phone.
+4. Test one lesson, microphone recording, an exam ZIP download, and Submit to teacher.
+5. Install the PWA from the browser.
+
+ANDROID
+Open the HTTPS site in Chrome. Use the in-app Install button when offered, or the browser menu > Install app / Add to Home screen.
+
+iPHONE / iPAD
+Open the HTTPS site in Safari. Tap Share > Add to Home Screen > Add.
+
+UPDATES
+If you redeploy newer app files to the SAME HTTPS address, the PWA service worker checks for newer files. Student localStorage/IndexedDB progress remains on that same site origin. Students should still export backups regularly.
+
+SUBMISSIONS
+Speaking recordings are not attached directly to email. The app creates a ZIP, sends it to the configured Google Apps Script, the script stores it in Google Drive, and the teacher receives the Drive link by email. This is safer for audio file size.

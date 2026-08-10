@@ -1,0 +1,11 @@
+START HERE — VERSION 3.0
+
+1. Extract All from the downloaded ZIP.
+2. Open the extracted folder.
+3. Double-click START_PLATFORM_WINDOWS.bat.
+4. Keep the black window open.
+5. Create your learner profile.
+6. Study from the dashboard and course map.
+7. Use Updates only for official JSON packs supplied by your teacher.
+8. Export a backup before installing an update.
+9. After an exam, submit to the teacher and save the ZIP backup.

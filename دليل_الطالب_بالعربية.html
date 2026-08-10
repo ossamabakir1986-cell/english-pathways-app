@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>دليل الطالب - English Pathways</title>
+<style>
+@page {
+  size: A4;
+  margin: 16mm 15mm 17mm 15mm;
+  @top-center {
+    content: "English Pathways | دليل الطالب العربي | الإصدار 3.0";
+    font-family: "Noto Sans Arabic", sans-serif;
+    font-size: 8.5pt;
+    color: #68758a;
+  }
+  @bottom-center {
+    content: "الصفحة " counter(page) " من " counter(pages) " - احتفظ بنسخة احتياطية ولا تستخدم التصفح الخفي";
+    font-family: "Noto Sans Arabic", sans-serif;
+    font-size: 8pt;
+    color: #68758a;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  color: #132238;
+  font-family: "Noto Naskh Arabic", "Noto Sans Arabic", sans-serif;
+  font-size: 12.3pt;
+  line-height: 1.72;
+}
+h1,h2,h3 { font-family: "Noto Kufi Arabic", "Noto Sans Arabic", sans-serif; margin: 0; }
+h1 {
+  color: #145e68;
+  font-size: 25pt;
+  border-bottom: 3px solid #145e68;
+  padding-bottom: 7px;
+  margin-bottom: 16px;
+}
+h2 { color:#132238; font-size: 17pt; margin: 20px 0 9px; }
+h3 { color:#145e68; font-size: 13.5pt; margin: 16px 0 7px; }
+p { margin: 5px 0 10px; }
+a { color:#145e68; }
+.cover {
+  min-height: 245mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  page-break-after: always;
+}
+.cover-box {
+  background: #145e68;
+  color: white;
+  border-radius: 22px;
+  padding: 38px 26px;
+}
+.cover-box h1 {
+  color: white;
+  border: 0;
+  font-size: 38pt;
+  margin: 0 0 7px;
+}
+.cover-box .en-title {
+  direction:ltr;
+  font-family: "DejaVu Sans", sans-serif;
+  font-weight: 800;
+  font-size: 19pt;
+}
+.cover-box .sub { font-size: 14pt; margin-top: 14px; }
+.cover-intro { font-size: 15pt; margin: 25px auto 16px; max-width: 150mm; }
+.page-break { page-break-before: always; }
+.no-break { break-inside: avoid; page-break-inside: avoid; }
+.callout {
+  border: 1.5px solid #145e68;
+  border-right-width: 6px;
+  background: #eaf4f5;
+  border-radius: 12px;
+  padding: 11px 14px;
+  margin: 13px 0;
+  break-inside: avoid;
+}
+.callout.warning { background:#fff4df; border-color:#b77820; }
+.callout.danger { background:#fff0ee; border-color:#b43d32; }
+.callout.success { background:#e8f6ef; border-color:#237a54; }
+.callout strong { display:block; font-family:"Noto Kufi Arabic"; color:#145e68; margin-bottom:3px; }
+.callout.warning strong { color:#955d10; }
+.callout.danger strong { color:#a3342a; }
+.callout.success strong { color:#237a54; }
+.button {
+  display: inline-block;
+  direction:ltr;
+  unicode-bidi:isolate;
+  font-family: "DejaVu Sans", sans-serif;
+  background:#145e68;
+  color:#fff;
+  border-radius:8px;
+  padding:4px 10px;
+  font-size:10pt;
+  font-weight:800;
+  white-space:nowrap;
+}
+.inline-en {
+  direction:ltr;
+  unicode-bidi:isolate;
+  font-family:"DejaVu Sans", sans-serif;
+  color:#145e68;
+  font-weight:800;
+  font-size:.88em;
+}
+.file-box {
+  direction:ltr;
+  unicode-bidi:isolate;
+  font-family:"DejaVu Sans Mono", monospace;
+  background:#145e68;
+  color:#fff;
+  border-radius:11px;
+  padding:10px 13px;
+  text-align:center;
+  font-weight:800;
+  margin:12px auto;
+  width: fit-content;
+  max-width:100%;
+}
+.steps { counter-reset: step; }
+.step {
+  counter-increment: step;
+  display:grid;
+  grid-template-columns: 1fr 14mm;
+  gap: 0;
+  margin: 10px 0;
+  border:1px solid #d8e0ea;
+  border-radius:12px;
+  overflow:hidden;
+  background:#f6f9fb;
+  break-inside:avoid;
+}
+.step-content { padding:10px 13px; }
+.step-content strong { font-family:"Noto Kufi Arabic"; color:#145e68; }
+.step::after {
+  content: counter(step);
+  grid-column:2;
+  grid-row:1;
+  background:#145e68;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:"DejaVu Sans";
+  font-weight:900;
+  font-size:15pt;
+}
+table {
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin: 10px 0 15px;
+  font-size:10.5pt;
+  break-inside:auto;
+}
+thead { display: table-header-group; }
+tr { break-inside:avoid; page-break-inside:avoid; }
+th {
+  background:#145e68;
+  color:#fff;
+  font-family:"Noto Kufi Arabic";
+  padding:7px 8px;
+  border:1px solid #145e68;
+}
+td {
+  padding:7px 8px;
+  border-left:1px solid #d8e0ea;
+  border-bottom:1px solid #d8e0ea;
+  vertical-align:top;
+}
+td:first-child { border-right:1px solid #d8e0ea; }
+tbody tr:nth-child(odd) td { background:#f6f9fb; }
+td.label {
+  width:37%;
+  text-align:center;
+  direction:ltr;
+  unicode-bidi:isolate;
+  font-family:"DejaVu Sans", sans-serif;
+  color:#145e68;
+  font-weight:800;
+}
+.levels td:nth-child(1), .levels td:nth-child(2) {
+  direction:ltr;
+  unicode-bidi:isolate;
+  text-align:center;
+  font-family:"DejaVu Sans", sans-serif;
+}
+ul { margin:6px 0 12px; padding-right:24px; }
+li { margin:3px 0; }
+.quick {
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px;
+  margin:12px 0;
+}
+.quick div {
+  background:#f6f9fb;
+  border:1px solid #d8e0ea;
+  border-radius:11px;
+  padding:10px;
+  break-inside:avoid;
+}
+.small { color:#68758a; font-size:10.3pt; }
+.center { text-align:center; }
+hr { border:0; border-top:1px solid #d8e0ea; margin:18px 0; }
+</style>
+</head>
+<body>
+
+<section class="cover">
+  <div class="cover-box">
+    <h1>دليل الطالب</h1>
+    <div class="en-title">English Pathways - Student Edition v3.0</div>
+    <div class="sub">شرح عربي كامل مع أسماء الأزرار كما تظهر باللغة الإنجليزية</div>
+  </div>
+  <p class="cover-intro">يوضح هذا الدليل طريقة تنزيل الحزمة وتشغيلها، إنشاء ملف الطالب، استخدام الدروس والقاموس والميكروفون، إجراء الاختبارات، إرسال النتائج للمعلم، وحفظ نسخة احتياطية.</p>
+  <div class="callout warning">
+    <strong>أهم قاعدة قبل البدء</strong>
+    لا تشغّل المنصة من داخل ملف ZIP. اختر أولاً <span class="inline-en">Extract All</span>، ثم شغّل الملف <span class="inline-en">START_PLATFORM_WINDOWS.bat</span> من المجلد المستخرج.
+  </div>
+  <p class="small center">نسخة الطالب لا تحتوي على زر الإدارة Admin. إعدادات الإرسال إلى المعلم مهيأة مسبقاً.</p>
+</section>
+
+<h1>البدء السريع خلال خمس دقائق</h1>
+<div class="steps">
+  <div class="step"><div class="step-content"><strong>فك ضغط الحزمة</strong><br>انقر بزر الفأرة الأيمن على ملف الحزمة، ثم اختر <span class="inline-en">Extract All</span> وافتح المجلد الجديد.</div></div>
+  <div class="step"><div class="step-content"><strong>تشغيل المنصة</strong><br>انقر نقراً مزدوجاً على <span class="inline-en">START_PLATFORM_WINDOWS.bat</span>. اترك النافذة السوداء مفتوحة طوال فترة الدراسة.</div></div>
+  <div class="step"><div class="step-content"><strong>فتح الموقع</strong><br>يُفترض أن يفتح Chrome تلقائياً على <span class="inline-en">http://localhost:8766</span>.</div></div>
+  <div class="step"><div class="step-content"><strong>إنشاء ملف الطالب</strong><br>اكتب الاسم والبريد، اختر المستوى والغرض، ثم اضغط <span class="button">Create profile</span>.</div></div>
+  <div class="step"><div class="step-content"><strong>بدء الدراسة</strong><br>اضغط <span class="button">Continue</span> لاستكمال آخر درس، أو <span class="button">Browse course</span> لاستعراض المنهج.</div></div>
+</div>
+
+<div class="callout">
+  <strong>متطلبات مهمة</strong>
+  استخدم Windows وChrome. يجب أن يكون Python مثبتاً. عند طلب الميكروفون اختر <span class="inline-en">Microphone Array</span> أو اسم الميكروفون الحقيقي، ولا تختَر <span class="inline-en">Stereo Mix</span>.
+</div>
+
+<h2>المستويات الموجودة في المنصة</h2>
+<table class="levels">
+<thead><tr><th>CEFR</th><th>English level</th><th>الشرح العربي</th></tr></thead>
+<tbody>
+<tr><td>A1</td><td>Beginner / Elementary</td><td>مبتدئ / أساسي</td></tr>
+<tr><td>A2</td><td>Pre-intermediate</td><td>ما قبل المتوسط</td></tr>
+<tr><td>B1</td><td>Intermediate</td><td>متوسط</td></tr>
+<tr><td>B2.1</td><td>Upper-intermediate I</td><td>فوق المتوسط - المرحلة الأولى</td></tr>
+<tr><td>B2.2</td><td>Upper-intermediate II / Pre-advanced</td><td>فوق المتوسط - المرحلة الثانية / ما قبل المتقدم</td></tr>
+<tr><td>C1.1</td><td>Advanced I</td><td>متقدم - المرحلة الأولى</td></tr>
+<tr><td>C1.2</td><td>Advanced II</td><td>متقدم - المرحلة الثانية</td></tr>
+<tr><td>C2</td><td>Proficiency / Upper advanced</td><td>إتقان / متقدم جداً</td></tr>
+</tbody>
+</table>
+
+<div class="page-break"></div>
+<h1>1. تنزيل الحزمة وفك الضغط</h1>
+<p>قد يرسل المعلم الحزمة عبر Google Drive أو البريد أو وسيلة مشاركة ملفات. اسم الملف يكون قريباً من:</p>
+<div class="file-box">English_Pathways_Student_Edition_v3.0.zip</div>
+
+<div class="steps">
+  <div class="step"><div class="step-content"><strong>افتح مكان التنزيل</strong><br>عادةً يوجد الملف داخل مجلد <span class="inline-en">Downloads</span>.</div></div>
+  <div class="step"><div class="step-content"><strong>فك الضغط</strong><br>انقر بزر الفأرة الأيمن واختر <span class="inline-en">Extract All</span>، ثم وافق على مكان الاستخراج.</div></div>
+  <div class="step"><div class="step-content"><strong>افتح المجلد المستخرج</strong><br>يجب أن ترى ملفات مثل <span class="inline-en">index.html</span> و<span class="inline-en">app.js</span> و<span class="inline-en">START_PLATFORM_WINDOWS.bat</span>.</div></div>
+</div>
+
+<div class="callout danger">
+  <strong>خطأ شائع</strong>
+  تشغيل الملفات مباشرة من داخل ZIP قد يؤدي إلى فشل الموقع أو التسجيلات. أغلقه، ثم استخرج المجلد بالكامل.
+</div>
+
+<h1>2. تشغيل المنصة</h1>
+<div class="file-box">START_PLATFORM_WINDOWS.bat</div>
+<p>انقر نقراً مزدوجاً على الملف. ستظهر نافذة سوداء؛ هذه ليست رسالة خطأ، بل خادم محلي ضروري لفتح الموقع وحفظ الصوت.</p>
+<p>يُفتح Chrome عادةً على <span class="inline-en">http://localhost:8766</span>. اترك النافذة السوداء مفتوحة. لإيقاف المنصة، أغلق صفحة المتصفح ثم أغلق النافذة السوداء.</p>
+
+<div class="callout">
+  <strong>إذا لم يفتح المتصفح</strong>
+  افتح Chrome يدوياً واكتب <span class="inline-en">http://localhost:8766</span>. إذا أُغلقت النافذة السوداء فوراً، قد يكون Python غير مثبت؛ تواصل مع المعلم.
+</div>
+
+<h1>3. إنشاء ملف الطالب لأول مرة</h1>
+<p>في أول تشغيل ستظهر الحقول التالية:</p>
+<table>
+<thead><tr><th>اسم الحقل أو الزر</th><th>ما الذي تفعله؟</th></tr></thead>
+<tbody>
+<tr><td class="label">Name</td><td>اكتب اسم الطالب الحقيقي.</td></tr>
+<tr><td class="label">Email</td><td>اكتب البريد الصحيح؛ سيعرّف تسليماتك وقد يصلك تأكيد.</td></tr>
+<tr><td class="label">Starting level</td><td>اختر المستوى الذي حدده المعلم أو نتيجة اختبار تحديد المستوى.</td></tr>
+<tr><td class="label">Purpose</td><td>اختر هدف الدراسة مثل General English أو Employment أو Teaching.</td></tr>
+<tr><td class="label">Create profile</td><td>إنشاء الملف الشخصي والانتقال إلى لوحة التحكم.</td></tr>
+</tbody>
+</table>
+
+<div class="callout warning">
+  <strong>اختيار المستوى</strong>
+  لا تختَر مستوى مرتفعاً لمجرد التجربة. يمكن للمعلم تغييره لاحقاً، والبداية من مستوى مناسب أكثر فائدة.
+</div>
+
+<div class="page-break"></div>
+<h1>4. لوحة التحكم الرئيسية</h1>
+<p>بعد إنشاء الملف تظهر لوحة التحكم، وتعرض المستوى الحالي ونسبة التقدم وعدد الدروس والكلمات المحفوظة.</p>
+<table>
+<thead><tr><th>الزر كما يظهر</th><th>وظيفته</th></tr></thead>
+<tbody>
+<tr><td class="label">Continue: [lesson name]</td><td>العودة مباشرة إلى آخر درس تم فتحه.</td></tr>
+<tr><td class="label">Browse course</td><td>عرض المستويات والوحدات والدروس.</td></tr>
+<tr><td class="label">Placement test</td><td>فتح اختبار تحديد المستوى عندما يطلب المعلم.</td></tr>
+<tr><td class="label">Dictionary and Word Help</td><td>فتح القاموس ومساعدة الكلمات.</td></tr>
+<tr><td class="label">Vocabulary notebook</td><td>عرض الكلمات التي حفظتها.</td></tr>
+<tr><td class="label">End-of-level exam</td><td>فتح اختبار نهاية المستوى.</td></tr>
+<tr><td class="label">Install course update</td><td>فتح صفحة تثبيت دروس جديدة.</td></tr>
+<tr><td class="label">Export progress backup</td><td>تنزيل نسخة احتياطية من التقدم والتسجيلات.</td></tr>
+</tbody>
+</table>
+
+<h1>5. تصفح المستويات والوحدات</h1>
+<p>اضغط <span class="button">Browse course</span> أو الزر العلوي <span class="button">Course</span>. ستظهر المستويات A1 إلى C2. قد تكون بعض المستويات مفتوحة، بينما يظهر الأعلى للمعاينة فقط.</p>
+<table>
+<thead><tr><th>الزر أو الحالة</th><th>المعنى</th></tr></thead>
+<tbody>
+<tr><td class="label">Open</td><td>فتح درس لم يُنهَ بعد.</td></tr>
+<tr><td class="label">Review</td><td>فتح درس مكتمل لمراجعته.</td></tr>
+<tr><td class="label">Preview</td><td>معاينة مستوى أعلى غير مفتوح بالكامل.</td></tr>
+<tr><td class="label">Open [level] end-of-level exam</td><td>فتح اختبار نهاية المستوى المحدد.</td></tr>
+<tr><td class="label">Course map</td><td>العودة إلى خريطة المنهج من داخل الدرس.</td></tr>
+</tbody>
+</table>
+
+<div class="callout success">
+  <strong>التقدم المقترح</strong>
+  كل وحدة تتكون من خمسة أيام. أكمل الأيام بالترتيب، ولا تنتقل سريعاً إلى الاختبار النهائي قبل إنهاء معظم الدروس.
+</div>
+
+<h1>6. شكل الوحدة اليومية</h1>
+<table>
+<thead><tr><th>اليوم</th><th>المحتوى</th></tr></thead>
+<tbody>
+<tr><td class="label">Day 1 - Core language</td><td>شرح القاعدة والمفردات والأفعال المركبة.</td></tr>
+<tr><td class="label">Day 2 - Reading and use of English</td><td>نص قراءة وأسئلة تدريبية.</td></tr>
+<tr><td class="label">Day 3 - Listening and pronunciation</td><td>استماع، نص مكتوب، وتسجيل نطق.</td></tr>
+<tr><td class="label">Day 4 - Speaking and functional English</td><td>مهمة تحدث وتسجيل صوتي.</td></tr>
+<tr><td class="label">Day 5 - Writing, review and homework</td><td>كتابة، واجب، واختبار قصير.</td></tr>
+</tbody>
+</table>
+
+<table>
+<thead><tr><th>زر الدرس</th><th>وظيفته</th></tr></thead>
+<tbody>
+<tr><td class="label">Previous lesson</td><td>فتح الدرس السابق.</td></tr>
+<tr><td class="label">Save</td><td>حفظ الكتابة والإجابات الحالية.</td></tr>
+<tr><td class="label">Complete lesson</td><td>تأكيد إكمال الدرس والانتقال إلى التالي.</td></tr>
+<tr><td class="label">Completed</td><td>يدل على أن الدرس مكتمل ويمكن مراجعته.</td></tr>
+<tr><td class="label">Check answers</td><td>تصحيح التدريب وعرض الشرح.</td></tr>
+</tbody>
+</table>
+
+<div class="callout warning">
+  <strong>قبل Complete lesson</strong>
+  تأكد من إنهاء الكتابة أو الواجب والتسجيل المطلوب. يمكن الرجوع لاحقاً، لكن الأفضل حفظ عمل كامل.
+</div>
+
+<div class="page-break"></div>
+<h1>7. القاموس وWord Help</h1>
+<h2>أ. المساعدة داخل النص</h2>
+<p>من الشريط الجانبي داخل الدرس استخدم <span class="inline-en">Word Help: On</span> أو <span class="inline-en">Word Help: Off</span>. عند التفعيل، انقر الكلمة المظللة لعرض معناها.</p>
+<div class="callout">
+  <strong>لماذا لا يعمل الصوت بمجرد مرور الفأرة؟</strong>
+  لأن التشغيل التلقائي يشتت القراءة ويشغّل كلمات بالخطأ. اضغط <span class="button">Listen</span> فقط عندما تحتاج إلى النطق.
+</div>
+
+<h2>ب. القاموس الكامل</h2>
+<p>اضغط <span class="button">Dictionary</span> من أعلى الموقع أو داخل الدرس، واكتب الكلمة في خانة <span class="inline-en">Search</span>.</p>
+<table>
+<thead><tr><th>الزر</th><th>وظيفته</th></tr></thead>
+<tbody>
+<tr><td class="label">Listen</td><td>نطق الكلمة باستخدام صوت المتصفح.</td></tr>
+<tr><td class="label">Add</td><td>إضافة الكلمة إلى دفتر المفردات.</td></tr>
+<tr><td class="label">Saved</td><td>يعني أن الكلمة محفوظة.</td></tr>
+<tr><td class="label">Vocabulary notebook</td><td>فتح قائمة الكلمات المحفوظة.</td></tr>
+<tr><td class="label">×</td><td>إغلاق نافذة القاموس.</td></tr>
+</tbody>
+</table>
+
+<div class="callout warning">
+  <strong>حدود القاموس</strong>
+  القاموس المحلي يغطي مفردات المنهج الأساسية وليس قاموساً تجارياً شاملاً. لا تستخدم القاموس أو أي مساعدة خارجية أثناء الاختبارات الرسمية.
+</div>
+
+<h1>8. الاستماع والتسجيل الصوتي</h1>
+<h2>الاستماع</h2>
+<table>
+<thead><tr><th>الزر</th><th>وظيفته</th></tr></thead>
+<tbody>
+<tr><td class="label">Play listening</td><td>تشغيل نص الاستماع.</td></tr>
+<tr><td class="label">Stop</td><td>إيقاف الصوت.</td></tr>
+<tr><td class="label">Transcript</td><td>فتح النص المكتوب بعد الاستماع.</td></tr>
+</tbody>
+</table>
+<p>استمع أول مرة دون فتح النص. أعد الاستماع، ثم افتح <span class="inline-en">Transcript</span> للتحقق من الكلمات.</p>
+
+<h2>التسجيل</h2>
+<table>
+<thead><tr><th>الزر</th><th>وظيفته</th></tr></thead>
+<tbody>
+<tr><td class="label">Record</td><td>بدء التسجيل والسماح للمتصفح باستخدام الميكروفون.</td></tr>
+<tr><td class="label">Stop</td><td>إيقاف التسجيل وحفظه محلياً.</td></tr>
+<tr><td class="label">Play</td><td>الاستماع إلى التسجيل.</td></tr>
+<tr><td class="label">Delete</td><td>حذف التسجيل وإعادة المحاولة.</td></tr>
+</tbody>
+</table>
+
+<div class="callout warning">
+  <strong>اختيار الميكروفون الصحيح</strong>
+  اختر <span class="inline-en">Microphone Array</span> أو اسم الميكروفون الحقيقي، ولا تختَر <span class="inline-en">Stereo Mix</span> لأنه يسجل صوت الكمبيوتر بدلاً من صوت الطالب.
+</div>
+<p>تحدث في مكان هادئ وبصوت طبيعي. الوضوح أهم من محاولة تقليد لهجة مصطنعة.</p>
+
+<div class="page-break"></div>
+<h1>9. حفظ التقدم والنسخة الاحتياطية</h1>
+<p>التقدم يُحفظ على نفس الكمبيوتر ونفس Chrome، ويشمل الدروس المكتملة والكتابة والكلمات والاختبارات والتسجيلات.</p>
+<div class="file-box">Export progress backup</div>
+<p>اضغط الزر بانتظام، خصوصاً قبل تحديث المحتوى أو تغيير الجهاز. سيُنزل ملف ZIP احتياطياً.</p>
+
+<div class="callout danger">
+  <strong>لا تفعل هذه الأشياء</strong>
+  لا تستخدم Incognito، ولا تمسح بيانات موقع localhost، ولا تغيّر المتصفح في منتصف الدورة، ولا تحذف المجلد قبل إنشاء نسخة احتياطية.
+</div>
+
+<h2>متى أُنشئ نسخة احتياطية؟</h2>
+<ul>
+<li>بعد كل وحدة أو مرة أسبوعياً.</li>
+<li>قبل تثبيت أي Course content pack.</li>
+<li>قبل تنظيف المتصفح أو صيانة الجهاز.</li>
+<li>قبل الانتقال إلى جهاز آخر.</li>
+<li>بعد اختبار مهم أو تسجيلات طويلة.</li>
+</ul>
+
+<h1>10. اختبار نهاية المستوى</h1>
+<p>من لوحة التحكم اضغط <span class="button">End-of-level exam</span>، أو من خريطة المستوى اضغط <span class="button">Open [level] end-of-level exam</span>.</p>
+<div class="file-box">Start 45-minute exam</div>
+<p>الاختبار يتضمن 20 سؤالاً موضوعياً، ثم كتابة وتسجيل تحدث. لا تستخدم القاموس أو Word Help أثناء الاختبار.</p>
+
+<table>
+<thead><tr><th>الزر أو الخيار</th><th>وظيفته</th></tr></thead>
+<tbody>
+<tr><td class="label">Previous</td><td>العودة إلى السؤال السابق.</td></tr>
+<tr><td class="label">Next</td><td>الانتقال إلى السؤال التالي.</td></tr>
+<tr><td class="label">Review</td><td>مراجعة جميع الأسئلة قبل الكتابة والتحدث.</td></tr>
+<tr><td class="label">Mark for review / not sure</td><td>تعليم السؤال للعودة إليه.</td></tr>
+<tr><td class="label">Objective review</td><td>مراجعة الأسئلة الموضوعية وغير المكتملة.</td></tr>
+<tr><td class="label">Writing and speaking</td><td>الانتقال إلى مهمتي الكتابة والتحدث.</td></tr>
+<tr><td class="label">Submit exam</td><td>تسليم الاختبار وإغلاق الإجابات.</td></tr>
+</tbody>
+</table>
+
+<div class="callout warning">
+  <strong>إدارة الوقت</strong>
+  لا تتوقف طويلاً عند سؤال واحد. اختر أفضل إجابة، استخدم <span class="inline-en">Mark for review / not sure</span>، ثم عد إليه من <span class="inline-en">Review</span>.
+</div>
+
+<h1>11. النتيجة وإرسالها للمعلم</h1>
+<p>بعد التسليم تظهر النتيجة الموضوعية، بينما تبقى الكتابة والتحدث <span class="inline-en">Pending</span> حتى يراجعهما المعلم أو ChatGPT.</p>
+<table>
+<thead><tr><th>الزر</th><th>وظيفته</th></tr></thead>
+<tbody>
+<tr><td class="label">Download exam package</td><td>تنزيل ZIP كامل للاختبار كنسخة احتياطية.</td></tr>
+<tr><td class="label">Submit to teacher</td><td>إرسال الحزمة إلى Google Drive الخاص بالمعلم وإرسال إشعار.</td></tr>
+<tr><td class="label">Return to dashboard</td><td>العودة إلى لوحة التحكم.</td></tr>
+</tbody>
+</table>
+
+<div class="steps">
+  <div class="step"><div class="step-content"><strong>نزّل النسخة أولاً</strong><br>اضغط <span class="inline-en">Download exam package</span> واحتفظ بها.</div></div>
+  <div class="step"><div class="step-content"><strong>أرسل إلكترونياً</strong><br>اضغط <span class="inline-en">Submit to teacher</span> وانتظر رسالة النجاح.</div></div>
+  <div class="step"><div class="step-content"><strong>تحقق من الاستلام</strong><br>إذا لم يؤكد المعلم الاستلام، أرسل له ملف ZIP يدوياً.</div></div>
+</div>
+
+<div class="callout">
+  <strong>لماذا يجب حفظ ZIP؟</strong>
+  قد تؤكد الصفحة إرسال الطلب دون عرض تفاصيل Google. لذلك احتفظ دائماً بحزمة الاختبار حتى يؤكد المعلم وجودها في البريد أو Drive.
+</div>
+
+<h1>12. تثبيت تحديثات الدروس</h1>
+<p>قد يرسل المعلم ملف تحديث ينتهي بـ <span class="inline-en">.json</span>. لا تستخدم إلا الملفات الرسمية المرسلة من المعلم.</p>
+<div class="steps">
+  <div class="step"><div class="step-content"><strong>افتح Updates</strong><br>اضغط الزر العلوي <span class="inline-en">Updates</span> أو <span class="inline-en">Install course update</span>.</div></div>
+  <div class="step"><div class="step-content"><strong>نسخة احتياطية</strong><br>اضغط <span class="inline-en">Export backup first</span>.</div></div>
+  <div class="step"><div class="step-content"><strong>اختر ملف التحديث</strong><br>من <span class="inline-en">Course content pack (.json)</span> اختر الملف الذي أرسله المعلم.</div></div>
+  <div class="step"><div class="step-content"><strong>ثبّت المحتوى</strong><br>اضغط <span class="inline-en">Install selected update</span>.</div></div>
+  <div class="step"><div class="step-content"><strong>عُد للوحة التحكم</strong><br>اضغط <span class="inline-en">Return to dashboard</span>.</div></div>
+</div>
+
+<div class="callout success">
+  <strong>التقدم القديم لا يُحذف</strong>
+  التحديث يضيف وحدات ودروساً ولا يستبدل سجل الدروس المكتملة، لكن النسخة الاحتياطية قبل التحديث تبقى إجراءً إلزامياً.
+</div>
+
+<h1>13. حل المشكلات الشائعة</h1>
+<table>
+<thead><tr><th>المشكلة</th><th>الحل المقترح</th></tr></thead>
+<tbody>
+<tr><td>النافذة السوداء تُغلق مباشرة</td><td>استخرج الحزمة بالكامل. قد يكون Python غير مثبت؛ تواصل مع المعلم.</td></tr>
+<tr><td>الموقع لا يفتح</td><td>اترك النافذة السوداء مفتوحة وافتح Chrome على http://localhost:8766.</td></tr>
+<tr><td>الميكروفون لا يعمل</td><td>اسمح للميكروفون في Chrome واختر Microphone Array بدلاً من Stereo Mix.</td></tr>
+<tr><td>لا أسمع نطق القاموس</td><td>ارفع صوت الجهاز وجرب Listen. الصوت يعتمد على أصوات Windows/Chrome.</td></tr>
+<tr><td>اختفى التقدم</td><td>استخدم نفس Chrome ونفس الجهاز، وتأكد أنك لم تستخدم Incognito أو تمسح بيانات الموقع.</td></tr>
+<tr><td>فشل Submit to teacher</td><td>استخدم Download exam package وأرسل ZIP للمعلم يدوياً.</td></tr>
+<tr><td>ظهر مستوى مقفل</td><td>المعلم يفتح المستوى أو تتم مراجعته بعد اختبار المستوى السابق.</td></tr>
+<tr><td>فشل التحديث</td><td>تأكد أن JSON رسمي ومتوافق وغير مثبت مسبقاً.</td></tr>
+</tbody>
+</table>
+
+<div class="page-break"></div>
+<h1>14. مرجع سريع للأزرار المهمة</h1>
+<table>
+<thead><tr><th>الزر بالإنجليزية</th><th>المعنى أو الوظيفة</th></tr></thead>
+<tbody>
+<tr><td class="label">Course</td><td>خريطة المستويات والوحدات.</td></tr>
+<tr><td class="label">Dictionary</td><td>القاموس.</td></tr>
+<tr><td class="label">Updates</td><td>تثبيت محتوى جديد.</td></tr>
+<tr><td class="label">◐</td><td>تبديل المظهر الفاتح والداكن.</td></tr>
+<tr><td class="label">Create profile</td><td>إنشاء ملف الطالب.</td></tr>
+<tr><td class="label">Continue</td><td>استكمال آخر درس.</td></tr>
+<tr><td class="label">Browse course</td><td>استعراض المنهج.</td></tr>
+<tr><td class="label">Placement test</td><td>اختبار تحديد المستوى.</td></tr>
+<tr><td class="label">Open / Review</td><td>فتح درس أو مراجعته.</td></tr>
+<tr><td class="label">Course map</td><td>العودة إلى خريطة المنهج.</td></tr>
+<tr><td class="label">Word Help: On / Off</td><td>تشغيل أو إيقاف مساعدة الكلمات.</td></tr>
+<tr><td class="label">Save / Complete lesson</td><td>حفظ الدرس أو إكماله.</td></tr>
+<tr><td class="label">Check answers</td><td>تصحيح التدريب.</td></tr>
+<tr><td class="label">Play listening / Transcript</td><td>تشغيل الاستماع أو عرض النص.</td></tr>
+<tr><td class="label">Record / Stop / Play / Delete</td><td>إدارة التسجيل الصوتي.</td></tr>
+<tr><td class="label">Listen / Add / Saved</td><td>نطق كلمة وحفظها.</td></tr>
+<tr><td class="label">End-of-level exam</td><td>اختبار نهاية المستوى.</td></tr>
+<tr><td class="label">Start 45-minute exam</td><td>بدء الاختبار.</td></tr>
+<tr><td class="label">Previous / Next / Review</td><td>التنقل ومراجعة أسئلة الاختبار.</td></tr>
+<tr><td class="label">Submit exam</td><td>تسليم الاختبار.</td></tr>
+<tr><td class="label">Download exam package</td><td>تنزيل حزمة الاختبار.</td></tr>
+<tr><td class="label">Submit to teacher</td><td>إرسال النتيجة للمعلم.</td></tr>
+<tr><td class="label">Export progress backup</td><td>تنزيل نسخة احتياطية.</td></tr>
+<tr><td class="label">Install selected update</td><td>تثبيت تحديث الدروس.</td></tr>
+</tbody>
+</table>
+
+<div class="callout warning">
+  <strong>قاعدة الأمان الأخيرة</strong>
+  احتفظ بنسخ الاختبارات والنسخ الاحتياطية حتى يؤكد المعلم الاستلام. لا تشارك ملفاتك مع طالب آخر لأنها تحتوي على بياناتك وكتابتك وتسجيلاتك.
+</div>
+
+<h2 class="center">نهاية الدليل</h2>
+<p class="center small">ابدأ بهدوء، أكمل الدروس بالترتيب، سجّل صوتك بانتظام، وراجع الكلمات والأخطاء بدلاً من الاكتفاء بالتنقل بين الصفحات.</p>
+
+</body>
+</html>
