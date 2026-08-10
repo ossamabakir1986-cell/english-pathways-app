@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">Sharing a River Across Borders</title><desc id="d">Original editorial illustration for Sharing a River Across Borders</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">B2_1 · UNIT 10</text>
+<g transform="translate(175 175) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-55-42C-12-20-40 2 5 15 36 24 13 38 55 50"/></g><g transform="translate(400 185) scale(1.12)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="0" cy="0" r="47"/><path d="M-47 0h94M0-47c-20 16-20 78 0 94M0-47c20 16 20 78 0 94M-38-27h76M-38 27h76"/></g><g transform="translate(625 160) scale(0.88)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-42-40h84l-12 80h-60zM-30-12h60M-34 12h68"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">Sharing a River Across Borders</text>
+</svg>

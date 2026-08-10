@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">Editing a Complex Climate Report</title><desc id="d">Original editorial illustration for Editing a Complex Climate Report</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">C1_2 · UNIT 9</text>
+<g transform="translate(185 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-42-45h60l24 24v66h-84zM18-45v24h24M-28-8h52M-28 8h52M-28 24h36"/></g><g transform="translate(400 165) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-45 32l10-30 56-56 22 22-56 56z"/><path d="M21-54l22 22M-45 32l31-9"/></g><g transform="translate(615 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-45 20h70c24 0 26-33 3-38-5-24-38-28-49-8-25-2-36 31-24 46zM20 26l-10 20M42 26l-10 20M-2 26l-10 20"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">Editing a Complex Climate Report</text>
+</svg>

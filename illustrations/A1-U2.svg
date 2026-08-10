@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">A Zookeeper&#x27;s Morning</title><desc id="d">Original editorial illustration for A Zookeeper&#x27;s Morning</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">A1 · UNIT 2</text>
+<g transform="translate(175 175) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="0" cy="0" r="43"/><path d="M0-25V2l21 14"/><path d="M0-43v8M43 0h-8M0 43v-8M-43 0h8"/></g><g transform="translate(400 185) scale(1.12)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-36 18c0-25 16-42 39-42 21 0 36 15 36 35 0 18-14 30-34 30-18 0-41-7-41-23z"/><circle cx="20" cy="-9" r="3"/><path d="M-16-25l-13-20 24 12M18-25l17-18-3 27M-8 39v18M20 37v20"/></g><g transform="translate(625 160) scale(0.88)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-45 32C-38-20 5-50 47-42 44 5 14 42-35 42z"/><path d="M-35 35C-10 15 10-5 38-33"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">A Zookeeper&#x27;s Morning</text>
+</svg>

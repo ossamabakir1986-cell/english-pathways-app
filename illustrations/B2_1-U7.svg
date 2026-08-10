@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">Why People Pay More for Coffee</title><desc id="d">Original editorial illustration for Why People Pay More for Coffee</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">B2_1 · UNIT 7</text>
+<g transform="translate(185 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-38-22h68v50c0 13-10 23-23 23h-22c-13 0-23-10-23-23z"/><path d="M30-10h13c18 0 18 30 0 30H30M-18-48c-10 12 10 15 0 28M6-48c-10 12 10 15 0 28"/></g><g transform="translate(400 165) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="0" cy="-25" rx="37" ry="12"/><path d="M-37-25v48c0 7 17 12 37 12s37-5 37-12v-48M-37-1c0 7 17 12 37 12s37-5 37-12"/></g><g transform="translate(615 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-20-18c0-24 42-30 46-6 4 22-24 22-24 40M2 34v3"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">Why People Pay More for Coffee</text>
+</svg>

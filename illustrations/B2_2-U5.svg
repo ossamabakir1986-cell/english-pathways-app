@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">The Drone Project That Missed Its Deadline</title><desc id="d">Original editorial illustration for The Drone Project That Missed Its Deadline</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">B2_2 · UNIT 5</text>
+<g transform="translate(185 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-28-12h56v24h-56zM-28 0h-20M28 0h20M-40-18h-16M40-18h16M-40 18h-16M40 18h16M0 12v20M-10 32h20"/><circle cx="-48" cy="-18" r="8"/><circle cx="48" cy="-18" r="8"/><circle cx="-48" cy="18" r="8"/><circle cx="48" cy="18" r="8"/></g><g transform="translate(400 165) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><rect x="-45" y="-38" width="90" height="80" rx="7"/><path d="M-45-15h90M-25-50v24M25-50v24"/><path d="M-25 1h10M0 1h10M25 1h10M-25 20h10M0 20h10"/></g><g transform="translate(615 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M0-50l52 92h-104zM0-18v30M0 27v3"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">The Drone Project That Missed Its Deadline</text>
+</svg>

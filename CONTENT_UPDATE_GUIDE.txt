@@ -1,0 +1,21 @@
+COURSE UPDATE GUIDE
+
+FOR NEW STUDENTS
+Send the latest complete Student Edition ZIP. Version 2.0 already includes all 10 units per course stage.
+
+FOR FUTURE LESSON PACKS
+1. The teacher sends the official .json content pack to the student.
+2. The student opens English Pathways.
+3. Select Updates in the top menu.
+4. Export a progress backup.
+5. Select the .json content pack.
+6. Press Install selected update.
+7. The new units appear in the course map.
+8. Existing lesson progress, writing and recordings remain unchanged.
+
+IMPORTANT
+- The local website cannot push updates automatically.
+- Students must install the file, or download a newer complete edition.
+- Use only official packs from the teacher.
+- Stable lesson IDs allow progress to survive additive updates.
+- Online automatic updating would require hosting and a server.

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">The Library Makerspace</title><desc id="d">Original editorial illustration for The Library Makerspace</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">B1 · UNIT 10</text>
+<g transform="translate(175 175) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-42-30h36c12 0 20 7 20 18v52c-5-8-13-12-24-12h-32zM14-12c0-11 8-18 20-18h36v58H38c-11 0-19 4-24 12z"/></g><g transform="translate(400 185) scale(1.12)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-43 42l28-28M-29-38c18-3 28 8 24 23L39 29 24 44-20 0c-15 4-26-7-23-25l14 14 10-10z"/></g><g transform="translate(625 160) scale(0.88)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="0" cy="-18" r="13"/><path d="M-24 28c3-27 45-27 48 0"/><circle cx="48" cy="-12" r="11"/><path d="M29 28c3-23 36-23 39 0"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">The Library Makerspace</text>
+</svg>

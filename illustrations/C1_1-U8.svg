@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">Imagining the City of 2040</title><desc id="d">Original editorial illustration for Imagining the City of 2040</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">C1_1 · UNIT 8</text>
+<g transform="translate(175 175) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-55 45v-72h32v72M-15 45v-95h38v95M31 45v-58h24v58M-45-12h10M-45 5h10M-5-30h12M-5-12h12M-5 6h12M39 4h8M39 19h8"/></g><g transform="translate(400 185) scale(1.12)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-45 25c16-40 50-61 88-50M32-39l12 14-18 7"/><circle cx="-10" cy="18" r="26"/><path d="M-10 0v20l15 10"/></g><g transform="translate(625 160) scale(0.88)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-52 20h104v25h-104zM-40 20l12-42h56l20 42M-28-10h56"/><circle cx="-30" cy="45" r="8"/><circle cx="30" cy="45" r="8"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">Imagining the City of 2040</text>
+</svg>

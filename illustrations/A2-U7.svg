@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" role="img" aria-labelledby="t d">
+<title id="t">Learning Pottery in a New City</title><desc id="d">Original editorial illustration for Learning Pottery in a New City</desc>
+<rect width="800" height="360" rx="28" fill="#f5f7fa"/>
+<path d="M35 292C180 240 250 330 405 278S650 235 765 292" fill="none" stroke="#cbd8df" stroke-width="3" stroke-dasharray="8 10"/>
+<circle cx="92" cy="72" r="38" fill="#e4f3f4"/><circle cx="712" cy="72" r="26" fill="#fff0d8"/>
+<rect x="54" y="42" width="132" height="34" rx="17" fill="#145e68"/><text x="120" y="65" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="15" font-weight="700">A2 · UNIT 7</text>
+<g transform="translate(185 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-34-35h68c-2 15-12 22-12 30 0 7 12 18 12 35 0 15-68 15-68 0 0-17 12-28 12-35 0-8-10-15-12-30z"/><path d="M-25 10h50"/></g><g transform="translate(400 165) scale(0.9)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M0 48c-35-7-45-35-24-58 5 17 16 18 19-10 18 13 37 32 26 51 12-9 15-20 12-31 18 22 4 44-33 48z"/></g><g transform="translate(615 180) scale(1.05)" fill="none" stroke="#17324d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M-48 18c18-5 24-30 32-49 5-10 16-2 12 8L-9-7c6-15 19-35 27-31 9 4-2 25-7 36 9-13 20-25 27-19 8 7-10 29-18 38-16 18-46 28-68 1z"/></g>
+<path d="M255 178h62M483 178h60" stroke="#b77820" stroke-width="4" stroke-linecap="round"/>
+<circle cx="286" cy="178" r="7" fill="#b77820"/><circle cx="514" cy="178" r="7" fill="#b77820"/>
+<text x="400" y="322" text-anchor="middle" fill="#17324d" font-family="Arial, sans-serif" font-size="21" font-weight="700">Learning Pottery in a New City</text>
+</svg>
