@@ -1,11 +1,3 @@
-English Pathways Mobile App 2.0
-Course content 3.0
-
-Experience upgrade:
-- Desktop + mobile Profile and More access
-- Student profile/photo and email + PIN cloud restore
-- Manual placement progress transfer on all layouts
-- AI practice for open grammar, reading, listening, writing, speaking and pronunciation
-- Final-only AI for formal end-of-level productive skills and placement writing/speaking
-- Smoother mobile panels, English-learning background and answer sounds
-- Pedagogy enrichment across all 400 lessons: meaning/why, form/how, reading/writing/pronunciation methods, extra activities and extension reading
+English Pathways Mobile App Edition 4.0
+Premium Lesson Experience
+Course data: 3.0

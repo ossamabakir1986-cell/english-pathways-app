@@ -1,10 +1,11 @@
-const CACHE='english-pathways-mobile-v2.0.0';
+const CACHE='english-pathways-mobile-v4.0.0';
 const CORE=[
   "./",
   "./app.js",
   "./config.js",
   "./course-data.js",
   "./lesson-enrichment.js",
+  "./lesson-experience-v4.js",
   "./dictionary.js",
   "./icons/apple-touch-icon.png",
   "./icons/icon-192.png",

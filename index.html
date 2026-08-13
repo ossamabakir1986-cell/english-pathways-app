@@ -20,13 +20,14 @@
   <header class="topbar appTopbar">
     <button id="homeBtn" class="brand" aria-label="Home"><span>EP</span><b>English Pathways</b></button>
     <nav class="desktopNav" aria-label="Main navigation">
-      <button id="courseBtn">Course</button>
-      <button id="dictBtn">Dictionary</button>
+      <button id="desktopHomeBtn">Home</button>
+      <button id="courseBtn">Learn</button>
+      <button id="practiceBtn">Practice</button>
+      <button id="progressBtn">Progress</button>
       <button id="profileBtn">Profile</button>
-      <button id="moreBtn">More</button>
-      <button id="updateBtn">Updates</button>
     </nav>
     <div class="topActions">
+      <button id="moreBtn" aria-label="More tools and settings" title="More tools and settings">⚙</button>
       <span id="connectionPill" class="connectionPill" hidden>Offline</span>
       <button id="installTopBtn" class="installTopBtn" type="button">Install</button>
       <button id="themeBtn" aria-label="Change theme">◐</button>
@@ -47,14 +48,14 @@
     <button type="button" data-mobile-view="course" aria-label="Learn">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4.5c2.8-.7 5.2-.3 8 1.2v14c-2.8-1.5-5.2-1.9-8-1.2zm16 0c-2.8-.7-5.2-.3-8 1.2v14c2.8-1.5 5.2-1.9 8-1.2z"/></svg><span>Learn</span>
     </button>
-    <button type="button" data-mobile-action="dictionary" aria-label="Dictionary">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m14.5 14.5 5 5"/></svg><span>Dictionary</span>
+    <button type="button" data-mobile-view="practice" aria-label="Practice">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h10v4H7z"/><path d="M5 9h14v10H5z"/><path d="m9 14 2 2 4-4"/></svg><span>Practice</span>
     </button>
     <button type="button" data-mobile-view="progress" aria-label="Progress">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19V9m7 10V5m7 14v-7"/></svg><span>Progress</span>
     </button>
-    <button type="button" data-mobile-view="more" aria-label="More">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg><span>More</span>
+    <button type="button" data-mobile-view="profile" aria-label="Profile">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20c.7-4 3-6 6.5-6s5.8 2 6.5 6"/></svg><span>Profile</span>
     </button>
   </nav>
 
@@ -62,6 +63,7 @@
   <script src="config.js"></script>
   <script src="course-data.js"></script>
   <script src="lesson-enrichment.js"></script>
+  <script src="lesson-experience-v4.js"></script>
   <script src="dictionary.js"></script>
   <script src="prompts.js"></script>
   <script src="app.js"></script>

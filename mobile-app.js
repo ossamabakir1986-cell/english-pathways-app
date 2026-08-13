@@ -10,7 +10,7 @@ const isStandalone=()=>window.matchMedia('(display-mode: standalone)').matches||
 const isIOS=()=>/iphone|ipad|ipod/i.test(navigator.userAgent);
 const isInstalled=()=>isStandalone()||localStorage.getItem(INSTALLED_KEY)==='yes';
 function rememberInstalled(){localStorage.setItem(INSTALLED_KEY,'yes')}
-function active(view){tabs.forEach(b=>{const v=b.dataset.mobileView;const isLearn=view==='lesson'?v==='course':view==='exam'||view==='updates'||view==='profile'?v==='more':v===view;b.classList.toggle('active',!!isLearn)})}
+function active(view){tabs.forEach(b=>{const v=b.dataset.mobileView;const isLearn=view==='lesson'?v==='course':view==='exam'||view==='updates'||view==='more'?v==='profile':v===view;b.classList.toggle('active',!!isLearn)})}
 function updateInstallVisibility(){if(isStandalone())rememberInstalled();if(installTop)installTop.hidden=isInstalled()}
 function closeSheet(){sheet.hidden=true;sheet.innerHTML=''}
 function iosInstructions(){sheet.hidden=false;sheet.innerHTML=`<div class="installPanel"><div class="installIcon">EP</div><h2>Install English Pathways</h2><p>On iPhone or iPad, use Safari:</p><ol><li>Tap the <b>Share</b> button.</li><li>Choose <b>Add to Home Screen</b>.</li><li>Confirm <b>Add</b>.</li></ol><p><small>After the app is opened from the Home Screen, the install buttons disappear automatically.</small></p><div class="buttons"><button class="primary" id="closeInstall">Got it</button></div></div>`;document.getElementById('closeInstall').onclick=closeSheet}
