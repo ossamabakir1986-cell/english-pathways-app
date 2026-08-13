@@ -230,3 +230,19 @@ p { line-height: 1.62; }
   .result-question-head { flex-direction: column; }
   .answer-row { grid-template-columns: 1fr; gap: 4px; }
 }
+
+/* English Pathways 2.0 — smoother formal-assessment experience */
+.screen > * { animation: ptPanelIn .28s cubic-bezier(.2,.8,.2,1); }
+@keyframes ptPanelIn { from { opacity:.18; transform:translateY(7px); } to { opacity:1; transform:none; } }
+.hero-card,.question-card,.side-panel,.review-card,.completed-result-row,button { transition:transform .17s ease,box-shadow .17s ease,border-color .17s ease,background-color .17s ease; }
+button:active { transform:scale(.986); }
+@media (hover:hover) { .review-card:hover,.completed-result-row:hover { transform:translateY(-1px); box-shadow:0 9px 24px rgba(20,45,70,.07); } }
+@media (prefers-reduced-motion:reduce) { .screen > * { animation:none; } .hero-card,.question-card,.side-panel,.review-card,.completed-result-row,button { transition:none; } }
+.ai-final-report { margin:24px 0; padding:20px; border:1px solid color-mix(in srgb,var(--primary) 36%,var(--border)); border-radius:16px; background:linear-gradient(145deg,color-mix(in srgb,var(--primary) 8%,white),white); text-align:left; }
+.ai-final-report h2 { margin:7px 0 10px; }
+.skill-level-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:9px; margin:14px 0 18px; }
+.skill-level-grid > div { border:1px solid var(--border); border-radius:11px; padding:11px; background:white; }
+.skill-level-grid small { display:block; color:var(--muted); text-transform:capitalize; margin-bottom:4px; }
+.skill-level-grid strong { font-size:17px; }
+.locked-result { opacity:.78; }
+@media (max-width:700px) { .skill-level-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }

@@ -1,0 +1,20 @@
+ENGLISH PATHWAYS v2.0 — STATIC VALIDATION REPORT
+=================================================
+
+Completed checks:
+- JavaScript syntax passed for app.js, mobile-app.js, lesson-enrichment.js, service-worker.js and placement-test/app.js.
+- Apps Script Gateway v2 parsed successfully as JavaScript syntax.
+- Course data count: 8 levels, 80 units, 400 lessons.
+- Existing original unit illustration count: 80.
+- Pedagogy enrichment fields present for all 400 lessons: grammar meaning/why, form/how, mistakes, reading method, writing method, pronunciation method/why, extension passage/questions, activities.
+- Placement test count: 7 sections, 118 questions/tasks.
+- Main and placement HTML local file references resolve.
+- Placement active-test result lock is present.
+- Partial placement backup contains no answer key.
+- Final placement AI function requires state.finished.
+- Placement page loads the shared config.js AI endpoint.
+- Placement cloud sync action is wired.
+- No Gemini API key-looking literal was found in the changed source files.
+
+Important test limitation:
+The build environment blocked local browser navigation, so a full interactive Chrome/Edge/phone run was not possible here. After deployment, perform the first-device checklist in README_UPGRADE_v2.0.txt before treating the release as production-ready.

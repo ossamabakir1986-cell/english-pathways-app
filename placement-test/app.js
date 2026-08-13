@@ -20,6 +20,9 @@
   let recordingStartedAt = null;
   let recordingClock = null;
   let activeAudioQuestionId = null;
+  let placementCloudTimer = null;
+  let placementCloudLast = 0;
+  let placementCloudBusy = false;
 
   function freshState() {
     return {
@@ -40,7 +43,8 @@
       listeningPlays: {},
       completedAt: null,
       startedAt: null,
-      activityLog: []
+      activityLog: [],
+      aiFinal: null
     };
   }
 
@@ -85,6 +89,7 @@
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     saveIndicator.textContent = 'Saved locally';
     saveIndicator.style.color = '';
+    queuePlacementCloudSync(Boolean(state.finished || state.paused));
   }
 
   function logActivity(type, details = {}) {
@@ -112,6 +117,94 @@
     toast.classList.add('show');
     clearTimeout(showToast.timer);
     showToast.timer = setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+
+  function soundOn(){ return localStorage.getItem('ep-sound-effects') !== 'off'; }
+  function answerTone(kind='tap'){
+    if(!soundOn())return;
+    try{
+      const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+      const c=answerTone.ctx||(answerTone.ctx=new AC());if(c.state==='suspended')c.resume();
+      const now=c.currentTime,notes=kind==='finish'?[[620,.055,0],[780,.07,.07],[980,.09,.15]]:kind==='section'?[[560,.05,0],[700,.06,.06]]:[[520,.028,0]];
+      notes.forEach(([f,d,o])=>{const osc=c.createOscillator(),g=c.createGain();osc.type='sine';osc.frequency.value=f;g.gain.setValueAtTime(.0001,now+o);g.gain.exponentialRampToValueAtTime(.025,now+o+.006);g.gain.exponentialRampToValueAtTime(.0001,now+o+d);osc.connect(g);g.connect(c.destination);osc.start(now+o);osc.stop(now+o+d+.01)});
+    }catch(e){}
+  }
+  function aiEndpoint(){ return String(window.APP_CONFIG?.aiEndpoint||'').trim(); }
+  function aiJsonp(params){return new Promise((resolve,reject)=>{const endpoint=aiEndpoint();if(!endpoint)return reject(new Error('AI Gateway is not configured.'));const cb='epPT_'+Date.now()+'_'+Math.random().toString(36).slice(2),script=document.createElement('script');let done=false;const cleanup=()=>{if(done)return;done=true;clearTimeout(to);try{delete window[cb]}catch(e){}script.remove()};window[cb]=data=>{cleanup();resolve(data)};script.onerror=()=>{cleanup();reject(new Error('AI Gateway could not be reached.'))};const q=new URLSearchParams({...params,prefix:cb});script.src=endpoint+(endpoint.includes('?')?'&':'?')+q.toString();script.async=true;document.body.appendChild(script);const to=setTimeout(()=>{cleanup();reject(new Error('AI request timed out.'))},60000)})}
+  async function postAI(payload){const endpoint=aiEndpoint();if(!endpoint)throw Error('AI Gateway is not configured.');await fetch(endpoint,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)})}
+  async function waitAIResult(requestId,tries=55){for(let i=0;i<tries;i++){await new Promise(r=>setTimeout(r,i<3?900:1300));const a=await aiJsonp({action:'result',requestId});if(a?.status==='ready')return a.result;if(a?.status==='error')throw Error(a.error||'AI task failed.')}throw Error('AI grading did not finish in time.')}
+  function blobBase64(blob){return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]||'');r.onerror=()=>no(r.error);r.readAsDataURL(blob)})}
+  function placementCloudContext(){
+    try{
+      const appState=JSON.parse(localStorage.getItem('ep-state-v1')||'null');
+      const sync=appState?.sync||{};
+      if(!aiEndpoint()||!sync.enabled||!sync.email||!sync.auth)return null;
+      return{appState,sync};
+    }catch(e){return null}
+  }
+  function placementCloudBundle(appState){
+    const cleanState=JSON.parse(JSON.stringify(appState||{}));
+    if(cleanState.sync)cleanState.sync={...cleanState.sync,auth:''};
+    const placement=JSON.parse(JSON.stringify(state));
+    const audioCount=Object.values(placement.responses||{}).filter(r=>r&&r.recorded).length;
+    return{formatVersion:2,courseVersion:window.APP_CONFIG?.version||'3.0',savedAt:new Date().toISOString(),state:cleanState,placement,audioIncluded:false,cloudWarnings:audioCount?[`${audioCount} placement speaking recording(s) remain on the original device; audio is not included in cloud sync yet.`]:[]};
+  }
+  async function pushPlacementCloudSync(){
+    const ctx=placementCloudContext();if(!ctx||placementCloudBusy)return;
+    placementCloudBusy=true;clearTimeout(placementCloudTimer);placementCloudTimer=null;
+    try{
+      const requestId='ptsync_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+      await postAI({action:'syncSave',requestId,email:ctx.sync.email,auth:ctx.sync.auth,data:JSON.stringify(placementCloudBundle(ctx.appState))});
+      const result=await waitAIResult(requestId,30);if(!result?.ok)throw Error(result?.error||'Cloud sync failed.');
+      placementCloudLast=Date.now();
+      const latest=JSON.parse(localStorage.getItem('ep-state-v1')||'null');
+      if(latest?.sync?.enabled&&latest.sync.auth===ctx.sync.auth){latest.sync.lastSyncAt=new Date().toISOString();latest.sync.lastStatus='Synced';localStorage.setItem('ep-state-v1',JSON.stringify(latest));}
+      saveIndicator.textContent='Saved locally • cloud synced';
+    }catch(err){
+      try{const latest=JSON.parse(localStorage.getItem('ep-state-v1')||'null');if(latest?.sync?.enabled){latest.sync.lastStatus='Sync pending';localStorage.setItem('ep-state-v1',JSON.stringify(latest));}}catch(e){}
+    }finally{placementCloudBusy=false}
+  }
+  function queuePlacementCloudSync(force=false){
+    if(!placementCloudContext())return;
+    if(force){clearTimeout(placementCloudTimer);placementCloudTimer=setTimeout(pushPlacementCloudSync,650);return}
+    if(placementCloudTimer||placementCloudBusy)return;
+    const wait=Math.max(2500,45000-(Date.now()-placementCloudLast));
+    placementCloudTimer=setTimeout(pushPlacementCloudSync,wait);
+  }
+  function levelRank(level){const map={A1:1,A2:2,B1:3,'B2.1':4,'B2.2':5,'C1.1':6,'C1.2':7,C2:8};return map[level]||0}
+  async function gradeFinalWithAI(){
+    if(!state.finished)return showToast('Finish the examination before AI grading.');
+    if(!aiEndpoint())return showToast('AI Gateway is not configured.');
+    state.aiFinal={status:'grading',startedAt:new Date().toISOString(),taskResults:[],report:null};saveState();renderCompletion();
+    try{
+      const taskResults=[];
+      const writingSection=DATA.sections.find(s=>s.id==='writing');
+      for(const q of writingSection?.questions||[]){
+        const text=state.responses[q.id]?.text||'';
+        if(!text.trim()){taskResults.push({id:q.id,skill:'writing',skipped:true});continue}
+        const requestId='ptwrite_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+        await postAI({action:'gradePlacementWriting',requestId,level:q.level||'Placement',skill:'Writing',question:q.prompt,studentAnswer:text,wordMin:q.wordMin||'',wordMax:q.wordMax||''});
+        const r=await waitAIResult(requestId);if(!r?.ok)throw Error(r?.error||'Writing grading failed.');
+        taskResults.push({id:q.id,skill:'writing',grading:r.grading});
+      }
+      const speakingSection=DATA.sections.find(s=>s.id==='speaking');
+      for(const q of speakingSection?.questions||[]){
+        const resp=state.responses[q.id];
+        if(!resp?.recorded){taskResults.push({id:q.id,skill:'speaking',skipped:true});continue}
+        const blob=await getRecording(q.id);if(!blob){taskResults.push({id:q.id,skill:'speaking',missingAudio:true});continue}
+        if(blob.size>5*1024*1024)throw Error('A speaking recording is too large for instant AI grading. Use the ZIP export for that attempt.');
+        const requestId='ptvoice_'+Date.now()+'_'+Math.random().toString(36).slice(2),audioBase64=await blobBase64(blob);
+        await postAI({action:'gradeVoice',requestId,level:q.level||'Placement',skill:'Placement speaking',task:q.prompt,focus:'task achievement, intelligibility, fluency, grammar, vocabulary and interactional clarity',mimeType:blob.type||resp.mimeType||'audio/webm',audioBase64,formalAssessment:true});
+        const r=await waitAIResult(requestId);if(!r?.ok)throw Error(r?.error||'Speaking grading failed.');
+        taskResults.push({id:q.id,skill:'speaking',grading:r.grading});
+      }
+      const objective=DATA.sections.filter(s=>scoreSection(s).gradable).map(s=>({id:s.id,title:s.title,score:scoreSection(s)}));
+      const synthId='ptsynth_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+      await postAI({action:'synthesizePlacement',requestId:synthId,candidate:state.candidate.name||'Student',objective:JSON.stringify(objective),productive:JSON.stringify(taskResults)});
+      const synth=await waitAIResult(synthId);if(!synth?.ok)throw Error(synth?.error||'Final placement synthesis failed.');
+      state.aiFinal={status:'complete',completedAt:new Date().toISOString(),taskResults,report:synth.report};saveState();answerTone('finish');renderCompletion();
+    }catch(err){state.aiFinal={...(state.aiFinal||{}),status:'error',error:String(err.message||err)};saveState();showToast('AI grading failed: '+(err.message||err));renderCompletion()}
   }
 
   function showModal({ title, body, buttons }) {
@@ -183,12 +276,11 @@
     return `<div class="completed-results-list">
       ${indexes.map(i => {
         const section = DATA.sections[i];
+        if (!state.finished) return `<div class="completed-result-row locked-result"><div><strong>${escapeHtml(section.title)}</strong><div class="section-meta">Submitted • results unlock after the full examination is finished</div></div><span class="status-chip pending">Locked</span></div>`;
         const score = scoreSection(section);
-        const result = score.gradable ? `${score.correct}/${score.total} • ${score.percentage}%` : 'Pending AI grading';
-        return `<div class="completed-result-row">
-          <div><strong>${escapeHtml(section.title)}</strong><div class="section-meta">${result}</div></div>
-          <button class="ghost-button" type="button" data-result-section="${i}">View results</button>
-        </div>`;
+        const aiSkill = state.aiFinal?.report?.skillLevels?.[section.id];
+        const result = score.gradable ? `${score.correct}/${score.total} • ${score.percentage}%` : (aiSkill ? `AI estimate: ${escapeHtml(aiSkill)}` : 'Pending final AI grading');
+        return `<div class="completed-result-row"><div><strong>${escapeHtml(section.title)}</strong><div class="section-meta">${result}</div></div><button class="ghost-button" type="button" data-result-section="${i}">View results</button></div>`;
       }).join('')}
     </div>`;
   }
@@ -206,7 +298,9 @@
   function render() {
     stopTimer();
     if (Number.isInteger(state.viewingResultsSectionIndex)) {
-      return renderSectionResults(state.viewingResultsSectionIndex);
+      if (state.finished) return renderSectionResults(state.viewingResultsSectionIndex);
+      state.viewingResultsSectionIndex = null;
+      saveState();
     }
     if (state.finished) return renderCompletion();
     if (!state.started) return renderWelcome();
@@ -266,7 +360,7 @@
 
           <label class="checkbox-row">
             <input id="consent" type="checkbox" ${state.consent?'checked':''}>
-            <span>I understand that each section is timed, submitted answers cannot be changed, completed-section scores and correct answers may be reviewed, and the result is diagnostic rather than an official certificate.</span>
+            <span>I understand that each section is timed, submitted answers cannot be changed, scores and correct answers stay hidden until the full examination is finished, and the result is diagnostic rather than an official certificate.</span>
           </label>
 
           <div class="button-row">
@@ -310,24 +404,19 @@
             <div class="metric"><div class="metric-label">Time limit</div><div class="metric-value">${section.durationMinutes} min</div></div>
             <div class="metric"><div class="metric-label">Items</div><div class="metric-value">${section.questions.length}</div></div>
             <div class="metric"><div class="metric-label">Navigation</div><div class="metric-value">Open</div></div>
-            <div class="metric"><div class="metric-label">Review flags</div><div class="metric-value">Enabled</div></div>
+            <div class="metric"><div class="metric-label">Results</div><div class="metric-value" style="font-size:15px">After finish</div></div>
           </div>
           <div class="notice warning"><strong>The timer starts when you press “Start section”.</strong> It cannot be paused. You may revisit any question in this section while time remains.</div>
+          <div class="notice" style="margin-top:12px"><strong>Fair placement rule:</strong> scores, correct answers, explanations and AI feedback stay hidden until every section is submitted and the examination is finished.</div>
           ${section.id === 'speaking' ? '<div class="notice" style="margin-top:12px"><strong>Microphone:</strong> run the microphone check now. Recordings can be replayed and replaced before section submission.</div>' : ''}
-          ${completedSectionIndexes().length ? `
-            <div class="results-dashboard">
-              <h2>Completed-section results</h2>
-              <p class="helper">Review scores and correct answers from submitted sections. Submitted answers remain locked.</p>
-              ${completedResultsListHtml()}
-            </div>` : ''}
+          ${completedSectionIndexes().length ? `<div class="results-dashboard"><h2>Progress</h2><p class="helper">${completedSectionIndexes().length} section(s) submitted. Results remain locked until the final page.</p>${completedResultsListHtml()}</div>` : ''}
           <div class="button-row">
             ${section.id === 'speaking' ? '<button class="secondary-button" id="sectionMicCheck">Test microphone</button>' : ''}
-            ${completedSectionIndexes().length ? '<button class="ghost-button" id="downloadCompletedIntro">Download completed sections</button>' : ''}
+            ${completedSectionIndexes().length ? '<button class="ghost-button" id="downloadCompletedIntro">Download completed sections backup</button>' : ''}
             <button class="primary-button" id="startSection">Start section</button>
           </div>
         </section>
       </div>`;
-    bindCompletedResultButtons();
     document.getElementById('downloadCompletedIntro')?.addEventListener('click', exportCompletedSections);
     document.getElementById('sectionMicCheck')?.addEventListener('click', runMicCheck);
     document.getElementById('startSection').addEventListener('click', () => {
@@ -478,6 +567,7 @@
       document.querySelectorAll('input[name="answer"]').forEach(input => input.addEventListener('change', e => {
         state.responses[question.id] = { selected: Number(e.target.value), answeredAt: new Date().toISOString() };
         saveState();
+        answerTone('tap');
         document.querySelectorAll('.option-label').forEach(label => label.classList.toggle('selected', label.contains(e.target)));
         refreshPalette();
       }));
@@ -599,8 +689,10 @@
     stopTimer();
     const section = currentSection();
     state.sectionStatus[state.sectionIndex] = 'completed';
-    state.viewingResultsSectionIndex = state.sectionIndex;
+    state.viewingResultsSectionIndex = null;
     logActivity('section-submitted', { section: section.id, automatic: auto, remainingSeconds: state.sectionRemaining[state.sectionIndex] });
+    queuePlacementCloudSync(true);
+    answerTone('section');
     render();
   }
 
@@ -679,13 +771,13 @@
               : 'Your response is saved below. Writing and speaking require AI review after export.'}</p>
           </div>
           ${metrics}
-          <div class="notice warning"><strong>Section locked:</strong> answers can be reviewed but cannot be changed after submission. Seeing feedback before later sections can slightly influence a diagnostic placement result.</div>
+          <div class="notice success"><strong>Final review:</strong> the examination is finished, so scores, correct answers and explanations are now unlocked. Submitted answers remain locked.</div>
 
           <div class="button-row">
             <button class="ghost-button" id="returnFromResults">${state.finished ? 'Return to final page' : 'Return'}</button>
             <button class="secondary-button" id="downloadCompletedResults">Download completed sections</button>
             ${!state.finished ? '<button class="ghost-button" id="pauseFromResults">Pause and exit</button>' : ''}
-            ${isLatestCompleted ? (isLast
+            ${!state.finished && isLatestCompleted ? (isLast
               ? '<button class="primary-button" id="continueFromResults">Finish examination</button>'
               : `<button class="primary-button" id="continueFromResults">Continue to ${escapeHtml(DATA.sections[state.sectionIndex + 1].title)}</button>`) : ''}
           </div>
@@ -746,14 +838,13 @@
             <p class="lead" style="margin-left:auto;margin-right:auto">You may safely close this browser tab. Return on this device and resume later.</p>
           </div>
           <div class="notice success"><strong>Next section:</strong> ${escapeHtml(nextSection?.title || 'Examination complete')}. Its timer has not started.</div>
-          ${completed.length ? `<div class="results-dashboard"><h2>Completed-section results</h2>${completedResultsListHtml()}</div>` : ''}
+          ${completed.length ? `<div class="results-dashboard"><h2>Submitted sections</h2><p class="helper">Scores and correct answers stay locked until the full exam is finished.</p>${completedResultsListHtml()}</div>` : ''}
           <div class="button-row" style="justify-content:center">
-            ${completed.length ? '<button class="secondary-button" id="downloadCompletedPaused">Download completed sections</button>' : ''}
+            ${completed.length ? '<button class="secondary-button" id="downloadCompletedPaused">Download completed sections backup</button>' : ''}
             <button class="primary-button" id="resumePaused">Resume examination</button>
           </div>
         </section>
       </div>`;
-    bindCompletedResultButtons();
     document.getElementById('downloadCompletedPaused')?.addEventListener('click', exportCompletedSections);
     document.getElementById('resumePaused').addEventListener('click', () => {
       state.paused = false;
@@ -768,7 +859,7 @@
 
   function renderBreak() {
     const finishedSection = currentSection();
-    const score = scoreSection(finishedSection);
+    const summary = sectionSummary(finishedSection);
     const last = state.sectionIndex === DATA.sections.length - 1;
     headerSubtitle.textContent = last ? 'All sections completed' : 'Section break';
     screen.innerHTML = `
@@ -778,28 +869,23 @@
             <div class="completion-icon">✓</div>
             <div class="eyebrow">Section submitted</div>
             <h1>${escapeHtml(finishedSection.title)} completed</h1>
-            <p class="lead" style="margin-left:auto;margin-right:auto">Your responses are saved locally. ${last ? 'The examination is ready to finish.' : 'Review results or take a break. The next section timer has not started.'}</p>
+            <p class="lead" style="margin-left:auto;margin-right:auto">Your responses are locked and saved. ${last ? 'The examination is ready to finish.' : 'Take a break if needed. The next section timer has not started.'}</p>
           </div>
-          ${score.gradable ? `
-            <div class="metrics">
-              <div class="metric"><div class="metric-label">Correct</div><div class="metric-value">${score.correct}/${score.total}</div></div>
-              <div class="metric"><div class="metric-label">Score</div><div class="metric-value">${score.percentage}%</div></div>
-              <div class="metric"><div class="metric-label">Incorrect</div><div class="metric-value">${score.incorrect}</div></div>
-              <div class="metric"><div class="metric-label">Unanswered</div><div class="metric-value">${score.unanswered}</div></div>
-            </div>` : '<div class="notice">This section requires AI grading. The submitted response is available in the results review.</div>'}
-          <div class="results-dashboard">
-            <h2>Completed-section results</h2>
-            ${completedResultsListHtml()}
+          <div class="metrics">
+            <div class="metric"><div class="metric-label">Answered</div><div class="metric-value">${summary.answered}/${finishedSection.questions.length}</div></div>
+            <div class="metric"><div class="metric-label">Marked</div><div class="metric-value">${summary.marked}</div></div>
+            <div class="metric"><div class="metric-label">Submitted sections</div><div class="metric-value">${completedSectionIndexes().length}/${DATA.sections.length}</div></div>
+            <div class="metric"><div class="metric-label">Results</div><div class="metric-value" style="font-size:15px">Locked</div></div>
           </div>
+          <div class="notice warning"><strong>No feedback yet.</strong> Correct answers, marks and AI comments unlock only after you finish the whole placement test.</div>
           <div class="button-row" style="justify-content:center">
-            <button class="secondary-button" id="downloadCompletedBreak">Download completed sections</button>
+            <button class="secondary-button" id="downloadCompletedBreak">Download backup</button>
             ${last ? '<button class="primary-button" id="finishExam">Finish examination</button>' : `
               <button class="ghost-button" id="pauseExam">Pause and exit</button>
               <button class="primary-button" id="nextSection">Continue to ${escapeHtml(DATA.sections[state.sectionIndex+1].title)}</button>`}
           </div>
         </section>
       </div>`;
-    bindCompletedResultButtons();
     document.getElementById('downloadCompletedBreak').addEventListener('click', exportCompletedSections);
     document.getElementById('pauseExam')?.addEventListener('click', () => {
       state.paused = true;
@@ -811,6 +897,7 @@
         state.finished = true;
         state.completedAt = new Date().toISOString();
         logActivity('test-completed');
+        answerTone('finish');
         render();
       });
     } else {
@@ -826,34 +913,44 @@
     headerSubtitle.textContent = 'Examination complete';
     const total = DATA.sections.reduce((sum,s)=>sum+s.questions.length,0);
     const answered = DATA.sections.flatMap(s=>s.questions).filter(isAnswered).length;
+    const objectiveSections=DATA.sections.filter(s=>scoreSection(s).gradable);
+    const objectiveTotal=objectiveSections.reduce((n,s)=>n+scoreSection(s).total,0);
+    const objectiveCorrect=objectiveSections.reduce((n,s)=>n+scoreSection(s).correct,0);
+    const objectivePct=objectiveTotal?Math.round(objectiveCorrect/objectiveTotal*100):0;
+    const ai=state.aiFinal;
+    const aiHtml=ai?.status==='complete'&&ai.report?`<section class="ai-final-report"><div class="eyebrow">AI productive-skills review</div><h2>Estimated overall level: ${escapeHtml(ai.report.overallLevel||'Pending')}</h2><p>${escapeHtml(ai.report.summary||'')}</p>${ai.report.skillLevels?`<div class="skill-level-grid">${Object.entries(ai.report.skillLevels).map(([k,v])=>`<div><small>${escapeHtml(k)}</small><strong>${escapeHtml(v)}</strong></div>`).join('')}</div>`:''}${Array.isArray(ai.report.studyPlan)?`<h3>Study priorities</h3><ul>${ai.report.studyPlan.map(x=>`<li>${escapeHtml(x)}</li>`).join('')}</ul>`:''}<p class="helper">AI estimates are diagnostic, not an official certificate.</p></section>`:ai?.status==='grading'?`<div class="notice"><strong>AI grading is in progress.</strong> Keep this page open until it finishes.</div>`:'';
     screen.innerHTML = `
-      <div class="center-shell">
+      <div class="center-shell wide">
         <section class="hero-card">
           <div class="completion-hero">
             <div class="completion-icon">✓</div>
             <div class="eyebrow">Completed</div>
             <h1>Examination finished</h1>
-            <p class="lead" style="margin-left:auto;margin-right:auto">Download the submission package. It includes all selected answers, writing responses, timing information, the grading manifest, and every saved voice recording.</p>
+            <p class="lead" style="margin-left:auto;margin-right:auto">The examination is now locked. Objective scores and correct answers are available. Writing and speaking can now be graded with AI.</p>
           </div>
           <div class="metrics">
             <div class="metric"><div class="metric-label">Candidate</div><div class="metric-value" style="font-size:18px">${escapeHtml(state.candidate.name)}</div></div>
             <div class="metric"><div class="metric-label">Responses saved</div><div class="metric-value">${answered}/${total}</div></div>
+            <div class="metric"><div class="metric-label">Objective score</div><div class="metric-value">${objectivePct}%</div></div>
             <div class="metric"><div class="metric-label">Sections</div><div class="metric-value">${DATA.sections.length}</div></div>
-            <div class="metric"><div class="metric-label">Package format</div><div class="metric-value">ZIP</div></div>
           </div>
-          <div class="notice success"><strong>Next step:</strong> download the ZIP, then upload that ZIP file to ChatGPT and ask for the complete placement-test report.</div>
+          ${aiHtml}
+          <div class="notice success"><strong>Results unlocked:</strong> open any completed section below to see marks, correct answers and explanations.</div>
           <div class="results-dashboard">
-            <h2>Review completed-section results</h2>
+            <h2>Section results</h2>
             ${completedResultsListHtml()}
           </div>
           <div class="button-row" style="justify-content:center">
-            <button class="primary-button" id="downloadPackage">Download all answers and recordings</button>
+            <button class="primary-button" id="gradeWithAI" ${!window.APP_CONFIG?.aiEndpoint||ai?.status==='grading'?'disabled':''}>${ai?.status==='complete'?'Re-grade writing & speaking with AI':'Grade writing & speaking with AI'}</button>
+            <button class="secondary-button" id="downloadPackage">Download all answers and recordings</button>
             <button class="ghost-button" id="downloadText">Download text summary only</button>
             <button class="danger-button" id="resetExam">Erase this attempt</button>
           </div>
+          ${!window.APP_CONFIG?.aiEndpoint?'<div class="notice warning" style="margin-top:14px">AI grading is not configured. The ZIP export remains available for manual review.</div>':''}
         </section>
       </div>`;
     bindCompletedResultButtons();
+    document.getElementById('gradeWithAI')?.addEventListener('click', gradeFinalWithAI);
     document.getElementById('downloadPackage').addEventListener('click', exportZip);
     document.getElementById('downloadText').addEventListener('click', downloadTextSummary);
     document.getElementById('resetExam').addEventListener('click', confirmReset);
@@ -999,13 +1096,13 @@ ${r.text || 'UNANSWERED'}`);
     const indexes = completedSectionIndexes();
     if (!indexes.length) return showToast('No completed sections are available yet.');
     if (!window.JSZip) return showToast('ZIP library could not be loaded.');
-    showToast('Preparing completed-section package…');
+    showToast('Preparing progress backup…');
     try {
       const zip = new JSZip();
-      zip.file('completed_responses.json', JSON.stringify(buildResponsePayload(false, indexes), null, 2));
-      zip.file('completed_results_with_answer_key.json', JSON.stringify(buildResponsePayload(true, indexes), null, 2));
-      zip.file('completed_results.txt', buildTextSummary(indexes, true));
-      zip.file('README.txt', `This package contains only sections completed at download time. Objective scores and correct answers are included. Writing and speaking remain pending AI review.\n\n${DATA.disclaimer}\n`);
+      const payload = buildResponsePayload(false, indexes);
+      payload.sections.forEach(section => { delete section.score; });
+      zip.file('completed_responses_backup.json', JSON.stringify(payload, null, 2));
+      zip.file('README.txt', `This is a progress BACKUP created before the full placement examination is finished. It intentionally contains no scores, correct answers, answer key or explanations. Those unlock only after the entire examination is finished.\n\n${DATA.disclaimer}\n`);
 
       const recordingsFolder = zip.folder('recordings');
       const completedQuestions = indexes.flatMap(i => DATA.sections[i].questions);
@@ -1019,12 +1116,12 @@ ${r.text || 'UNANSWERED'}`);
         compression: 'DEFLATE',
         compressionOptions: { level: 6 }
       });
-      downloadBlob(blob, `${safeFilename(state.candidate.name)}_Completed_Section_Results_${dateStamp()}.zip`);
-      logActivity('completed-sections-downloaded', { sections: indexes.map(i => DATA.sections[i].id) });
-      showToast('Completed-section package downloaded.');
+      downloadBlob(blob, `${safeFilename(state.candidate.name)}_Placement_Progress_Backup_${dateStamp()}.zip`);
+      logActivity('completed-sections-backup-downloaded', { sections: indexes.map(i => DATA.sections[i].id) });
+      showToast('Progress backup downloaded.');
     } catch (error) {
       console.error(error);
-      showToast('Could not create the completed-section package.');
+      showToast('Could not create the progress backup.');
     }
   }
 
