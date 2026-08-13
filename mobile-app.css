@@ -794,3 +794,129 @@ body[data-view="profile"] .hero{
   .conceptJourney .conceptStep p{font-size:12px}
   .visualStory{gap:10px}
 }
+
+
+/* ===== v4.3 Solid Lesson Step Navigation =====
+   One clear button per stage. The number and title live inside the same control.
+   No translucent overlap, floating badge, or active underline. */
+.lessonSectionTabs{
+  position:sticky;
+  top:64px;
+  z-index:35;
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+  padding:14px clamp(20px,3vw,36px);
+  background:var(--panel);
+  border-bottom:1px solid var(--line);
+  backdrop-filter:none;
+  overflow:visible;
+}
+.lessonSectionTabs button{
+  appearance:none;
+  min-width:0;
+  min-height:68px;
+  padding:11px 14px 12px;
+  border:1px solid color-mix(in srgb,var(--primary) 14%,var(--line));
+  border-radius:16px;
+  background:color-mix(in srgb,var(--primary) 3%,var(--panel));
+  color:var(--text);
+  box-shadow:none;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:3px;
+  text-align:left;
+  line-height:1.15;
+  transition:transform .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease;
+}
+.lessonSectionTabs button:hover{
+  transform:translateY(-1px);
+  border-color:color-mix(in srgb,var(--primary) 30%,var(--line));
+  background:color-mix(in srgb,var(--primary) 6%,var(--panel));
+}
+.lessonSectionTabs button:focus-visible{
+  outline:3px solid color-mix(in srgb,var(--primary) 26%,transparent);
+  outline-offset:2px;
+}
+.lessonSectionTabs .tabNumber,
+.lessonSectionTabs button span.tabNumber{
+  width:auto;
+  height:auto;
+  min-width:0;
+  display:block;
+  padding:0;
+  margin:0;
+  border-radius:0;
+  background:transparent;
+  color:var(--muted);
+  font-size:10.5px;
+  font-weight:900;
+  letter-spacing:.09em;
+  line-height:1.1;
+}
+.lessonSectionTabs .tabLabel,
+.lessonSectionTabs button span.tabLabel{
+  width:auto;
+  height:auto;
+  display:block;
+  padding:0;
+  margin:0;
+  border-radius:0;
+  background:transparent;
+  color:inherit;
+  font-size:14px;
+  font-weight:900;
+  line-height:1.2;
+  white-space:normal;
+  overflow-wrap:normal;
+  word-break:normal;
+}
+.lessonSectionTabs button.active{
+  background:var(--primary);
+  border-color:var(--primary);
+  color:#fff;
+  box-shadow:0 8px 20px color-mix(in srgb,var(--primary) 18%,transparent);
+}
+.lessonSectionTabs button.active .tabNumber,
+.lessonSectionTabs button.active span.tabNumber{
+  background:transparent;
+  color:color-mix(in srgb,#fff 76%,transparent);
+}
+.lessonSectionTabs button.active .tabLabel,
+.lessonSectionTabs button.active span.tabLabel{
+  background:transparent;
+  color:#fff;
+}
+.lessonSectionTabs button.active::after{display:none!important;content:none!important}
+
+@media(max-width:720px){
+  .lessonSectionTabs{
+    display:flex;
+    gap:9px;
+    overflow-x:auto;
+    overscroll-behavior-inline:contain;
+    scroll-snap-type:x proximity;
+    scrollbar-width:none;
+    padding:10px 12px 11px;
+  }
+  .lessonSectionTabs::-webkit-scrollbar{display:none}
+  .lessonSectionTabs button{
+    flex:0 0 124px;
+    min-width:124px;
+    min-height:62px;
+    padding:9px 12px 10px;
+    border-radius:14px;
+    scroll-snap-align:start;
+  }
+  .lessonSectionTabs .tabLabel,
+  .lessonSectionTabs button span.tabLabel{font-size:13.5px}
+}
+
+@media(max-width:480px){
+  .lessonSectionTabs button{
+    flex-basis:116px;
+    min-width:116px;
+  }
+}
