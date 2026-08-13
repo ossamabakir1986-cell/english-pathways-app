@@ -19,3 +19,24 @@ body[data-view="onboard"] .bottomTabs,body[data-view="loading"] .bottomTabs{disp
 @media(max-width:850px){.desktopNav{display:none}.appTopbar .brand b{display:none}.courseLayout,.lessonLayout{display:block}.sidebar{position:static;margin-bottom:12px;padding:12px;box-shadow:none}.sidebar>.eyebrow,.sidebar>h3,.sidebar>.progress,.sidebarTip{display:none}.sidebar .sideList{display:flex;overflow-x:auto;gap:8px;margin:0;padding-bottom:2px;scrollbar-width:none}.sidebar .sideList::-webkit-scrollbar{display:none}.sidebar .sideItem{width:auto;min-width:max-content;min-height:42px;padding:8px 12px;background:var(--soft);border:1px solid var(--line)}.lessonHead{padding:18px 17px}.lessonBody{padding:18px 15px}.lessonFoot{position:sticky;bottom:calc(var(--tab-h) + var(--safe-bottom));z-index:45;padding:10px 12px;background:color-mix(in srgb,var(--panel) 96%,transparent);backdrop-filter:blur(12px);box-shadow:0 -8px 22px rgba(16,32,51,.08)}.lessonFoot>.buttons{display:grid;grid-template-columns:1fr 1.35fr;width:100%}.lessonFoot>button{display:none}.lessonFoot button{min-height:52px}.readingBox{font-size:17px}.lessonIllustration{border-radius:15px}.lessonIllustration img{aspect-ratio:4/3;object-fit:cover}.topicRibbon{padding:13px}.metrics{grid-template-columns:1fr 1fr}.metric{padding:13px}.metric strong{font-size:21px}.grid2,.grid3{grid-template-columns:1fr}.vocabGrid{grid-template-columns:1fr}.quizItem{padding:15px 13px}.option{min-height:50px;align-items:center}.buttons{display:grid;grid-template-columns:1fr 1fr}.buttons .primary:only-child,.buttons .secondary:only-child,.buttons .ghost:only-child{grid-column:1/-1}.buttons button{width:100%}#drawer{top:0;bottom:calc(var(--tab-h) + var(--safe-bottom));width:100%;padding:calc(16px + env(safe-area-inset-top)) 16px 20px;border-left:0;transform:translateY(105%);border-radius:24px 24px 0 0}#drawer.open{transform:translateY(0)}#popup{left:10px!important;right:10px!important;top:auto!important;bottom:calc(var(--tab-h) + var(--safe-bottom) + 10px);width:auto;max-height:55vh;overflow:auto;border-radius:18px}#toast{bottom:calc(var(--tab-h) + var(--safe-bottom) + 13px);max-width:calc(100% - 28px);text-align:center}.examNav{overflow-x:auto;flex-wrap:nowrap;padding-bottom:7px}.examNav button{min-width:42px}.examNav::-webkit-scrollbar{height:4px}.examNav::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}}
 @media(min-width:851px){.bottomTabs{display:none}body{padding-bottom:0}.installTopBtn{display:inline-flex}}
 @media(max-width:520px){.mobileActionGrid{grid-template-columns:1fr}.progressHero{grid-template-columns:84px 1fr}.progressRing{width:82px;height:82px}.progressRing:before{width:62px;height:62px}.hero{padding:22px 17px}.metrics{gap:8px}.metric{border-radius:12px}.topActions .installTopBtn{font-size:12px;padding:0 10px}}
+
+/* AI practice checker */
+.aiIntro{color:var(--muted);margin:8px 0 14px}
+.aiPractice{display:grid;gap:14px;margin:14px 0 22px}
+.aiQuestion{border:1px solid var(--line);background:var(--soft);border-radius:16px;padding:16px}
+.aiQuestion label{display:block;line-height:1.5;margin-bottom:10px}
+.aiAnswer{width:100%;min-height:92px;resize:vertical;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);padding:12px;line-height:1.55}
+.aiButtons{margin-top:10px}
+.aiFeedback{margin-top:10px}
+.aiWaiting{padding:12px;border-radius:10px;background:color-mix(in srgb,var(--primary) 10%,var(--panel));color:var(--primary);font-weight:750}
+.aiResult{border-radius:12px;padding:13px 14px;border:1px solid var(--line);background:var(--panel)}
+.aiResult.good{border-color:color-mix(in srgb,var(--good) 45%,var(--line));background:color-mix(in srgb,var(--good) 9%,var(--panel))}
+.aiResult.partial{border-color:color-mix(in srgb,var(--warn) 50%,var(--line));background:color-mix(in srgb,var(--warn) 10%,var(--panel))}
+.aiResult.bad{border-color:color-mix(in srgb,var(--bad) 45%,var(--line));background:color-mix(in srgb,var(--bad) 8%,var(--panel))}
+.aiResultHead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.aiScore{font-weight:900;font-size:13px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;background:var(--panel)}
+.aiChecks{display:flex;gap:8px;flex-wrap:wrap;margin:9px 0}
+.aiChecks span{font-size:12px;font-weight:800;padding:5px 8px;border-radius:999px;background:var(--panel);border:1px solid var(--line)}
+.aiResult p{margin:8px 0 0;line-height:1.55}
+.aiHint{color:var(--primary)}
+@media(max-width:520px){.aiQuestion{padding:13px}.aiButtons{grid-template-columns:1.4fr .8fr}.aiResultHead{align-items:flex-start}}

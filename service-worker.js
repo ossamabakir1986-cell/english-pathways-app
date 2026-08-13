@@ -1,4 +1,4 @@
-const CACHE='english-pathways-mobile-v1.0.0';
+const CACHE='english-pathways-mobile-v1.1.0';
 const CORE=[
   "./",
   "./app.js",
