@@ -1,8 +1,14 @@
-const CACHE='english-pathways-mobile-v5.0.1';
+const CACHE='english-pathways-mobile-v5.0.2';
 const CORE=[
   "./",
   "./app.js",
-  "./app.js?v=5.0.1",
+  "./app.js?v=5.0.2",
+  "./admin/",
+  "./admin/index.html",
+  "./admin/admin.css",
+  "./admin/admin.css?v=5.0.2",
+  "./admin/admin.js",
+  "./admin/admin.js?v=5.0.2",
   "./config.js",
   "./course-data.js",
   "./lesson-enrichment.js",
@@ -97,9 +103,9 @@ const CORE=[
   "./jszip.min.js",
   "./manifest.webmanifest",
   "./mobile-app.css",
-  "./mobile-app.css?v=5.0",
+  "./mobile-app.css?v=5.0.2",
   "./mobile-app.js",
-  "./mobile-app.js?v=5.0",
+  "./mobile-app.js?v=5.0.2",
   "./placement-test/app.js",
   "./placement-test/app.js?v=5.0",
   "./placement-test/exam-data.js",
@@ -114,4 +120,4 @@ const CORE=[
 ];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE&&k.startsWith('english-pathways-mobile-')).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
-self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.origin!==location.origin)return;if(req.mode==='navigate'){const fallback=url.pathname.includes('/placement-test/')?'./placement-test/index.html':'./index.html';event.respondWith(fetch(req).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(fallback,copy));return r}).catch(()=>caches.match(fallback)));return}const networkFirst=/\.(?:js|css|json|webmanifest)$/.test(url.pathname);if(networkFirst){event.respondWith(fetch(req).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(req,copy));return r}).catch(()=>caches.match(req)));return}event.respondWith(caches.match(req).then(hit=>{const update=fetch(req).then(r=>{if(r&&r.ok)caches.open(CACHE).then(c=>c.put(req,r.clone()));return r}).catch(()=>null);return hit||update}))});
+self.addEventListener('fetch',event=>{const req=event.request;if(req.method!=='GET')return;const url=new URL(req.url);if(url.origin!==location.origin)return;if(req.mode==='navigate'){const fallback=url.pathname.includes('/placement-test/')?'./placement-test/index.html':url.pathname.includes('/admin/')?'./admin/index.html':'./index.html';event.respondWith(fetch(req).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(fallback,copy));return r}).catch(()=>caches.match(fallback)));return}const networkFirst=/\.(?:js|css|json|webmanifest)$/.test(url.pathname);if(networkFirst){event.respondWith(fetch(req).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(req,copy));return r}).catch(()=>caches.match(req)));return}event.respondWith(caches.match(req).then(hit=>{const update=fetch(req).then(r=>{if(r&&r.ok)caches.open(CACHE).then(c=>c.put(req,r.clone()));return r}).catch(()=>null);return hit||update}))});
