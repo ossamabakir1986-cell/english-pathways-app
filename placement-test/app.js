@@ -29,7 +29,7 @@
     try {
       const courseState = JSON.parse(localStorage.getItem('ep-state-v1') || 'null');
       const profile = courseState?.profile || null;
-      if (courseState?.onboarded && profile?.name) return profile;
+      if (courseState?.onboarded && profile?.name) return {...profile, studentId:courseState.studentId||'', sync:courseState.sync||{}, access:courseState.access||{}};
     } catch (error) {}
     return null;
   }
@@ -49,7 +49,7 @@
       finished: false,
       paused: false,
       viewingResultsSectionIndex: null,
-      candidate: { name: '', email: '', purpose: 'General assessment', variety: 'No preference' },
+      candidate: { studentId:'', name: '', email: '', purpose: 'General assessment', variety: 'No preference' },
       consent: false,
       sectionIndex: 0,
       questionIndex: 0,
@@ -159,27 +159,27 @@
     try{
       const appState=JSON.parse(localStorage.getItem('ep-state-v1')||'null');
       const sync=appState?.sync||{};
-      if(!aiEndpoint()||!sync.enabled||!sync.email||!sync.auth)return null;
+      if(!aiEndpoint()||!sync.enabled||!sync.email||(!sync.auth&&!sync.credential))return null;
       return{appState,sync};
     }catch(e){return null}
   }
   function placementCloudBundle(appState){
     const cleanState=JSON.parse(JSON.stringify(appState||{}));
-    if(cleanState.sync)cleanState.sync={...cleanState.sync,auth:''};
+    if(cleanState.sync)cleanState.sync={...cleanState.sync,auth:'',credential:''};
     const placement=JSON.parse(JSON.stringify(state));
     const audioCount=Object.values(placement.responses||{}).filter(r=>r&&r.recorded).length;
-    return{formatVersion:2,courseVersion:window.APP_CONFIG?.version||'3.0',savedAt:new Date().toISOString(),state:cleanState,placement,audioIncluded:false,cloudWarnings:audioCount?[`${audioCount} placement speaking recording(s) remain on the original device; audio is not included in cloud sync yet.`]:[]};
+    return{formatVersion:5,studentId:appState?.studentId||state.candidate.studentId||'',courseVersion:window.APP_CONFIG?.version||'3.0',savedAt:new Date().toISOString(),state:cleanState,placement,audioIncluded:false,cloudWarnings:audioCount?[`${audioCount} placement speaking recording(s) remain on the original device; audio is not included in cloud sync yet.`]:[]};
   }
   async function pushPlacementCloudSync(){
     const ctx=placementCloudContext();if(!ctx||placementCloudBusy)return;
     placementCloudBusy=true;clearTimeout(placementCloudTimer);placementCloudTimer=null;
     try{
       const requestId='ptsync_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-      await postAI({action:'syncSave',requestId,email:ctx.sync.email,auth:ctx.sync.auth,data:JSON.stringify(placementCloudBundle(ctx.appState))});
+      await postAI({action:'syncSave',requestId,studentId:ctx.appState?.studentId||ctx.sync.studentId||'',email:ctx.sync.email,auth:ctx.sync.auth||'',credential:ctx.sync.credential||'',data:JSON.stringify(placementCloudBundle(ctx.appState))});
       const result=await waitAIResult(requestId,30);if(!result?.ok)throw Error(result?.error||'Cloud sync failed.');
       placementCloudLast=Date.now();
       const latest=JSON.parse(localStorage.getItem('ep-state-v1')||'null');
-      if(latest?.sync?.enabled&&latest.sync.auth===ctx.sync.auth){latest.sync.lastSyncAt=new Date().toISOString();latest.sync.lastStatus='Synced';localStorage.setItem('ep-state-v1',JSON.stringify(latest));}
+      if(latest?.sync?.enabled&&(latest.sync.auth===ctx.sync.auth||latest.sync.credential===ctx.sync.credential)){latest.sync.lastSyncAt=new Date().toISOString();latest.sync.lastStatus='Synced';localStorage.setItem('ep-state-v1',JSON.stringify(latest));}
       saveIndicator.textContent='Saved locally • cloud synced';
     }catch(err){
       try{const latest=JSON.parse(localStorage.getItem('ep-state-v1')||'null');if(latest?.sync?.enabled){latest.sync.lastStatus='Sync pending';localStorage.setItem('ep-state-v1',JSON.stringify(latest));}}catch(e){}
@@ -193,6 +193,16 @@
     placementCloudTimer=setTimeout(pushPlacementCloudSync,wait);
   }
   function levelRank(level){const map={A1:1,A2:2,B1:3,'B2.1':4,'B2.2':5,'C1.1':6,'C1.2':7,C2:8};return map[level]||0}
+  function levelIdFromCefr(v){const m={A1:'A1',A2:'A2',B1:'B1','B2.1':'B2_1','B2.2':'B2_2','C1.1':'C1_1','C1.2':'C1_2',C2:'C2'};return m[String(v||'').trim()]||String(v||'').replace(/\./g,'_')}
+  async function applyPlacementAccess(grantRequestId){
+    const ctx=placementCloudContext();if(!ctx||!grantRequestId)return null;
+    const requestId='ptgrant_'+Date.now()+'_'+Math.random().toString(36).slice(2);
+    await postAI({action:'applyPlacementResult',requestId,grantRequestId,studentId:ctx.appState?.studentId||state.candidate.studentId||'',email:ctx.sync.email,auth:ctx.sync.auth||'',credential:ctx.sync.credential||''});
+    const r=await waitAIResult(requestId,35);if(!r?.ok)throw Error(r?.error||'Course access could not be updated.');
+    try{const appState=JSON.parse(localStorage.getItem('ep-state-v1')||'null');if(appState&&r.access){appState.studentId=r.access.studentId||appState.studentId;appState.profile={...(appState.profile||{}),email:r.access.email||appState.profile?.email,verifiedLevel:r.access.verifiedLevel||null};appState.access={...(appState.access||{}),...r.access};appState.unlocked=Array.isArray(r.access.unlockedLevels)?r.access.unlockedLevels:appState.unlocked;const lid=levelIdFromCefr(r.access.verifiedLevel);if(lid&&appState.unlocked?.includes(lid)){appState.level=lid;appState.current=lid+'-U1-D1'}appState.recommendation=lid||appState.recommendation;localStorage.setItem('ep-state-v1',JSON.stringify(appState));}}
+    catch(e){}
+    return r;
+  }
   async function gradeFinalWithAI(){
     if(!state.finished)return showToast('Finish the examination before AI grading.');
     if(!aiEndpoint())return showToast('AI Gateway is not configured.');
@@ -221,9 +231,9 @@
       }
       const objective=DATA.sections.filter(s=>scoreSection(s).gradable).map(s=>({id:s.id,title:s.title,score:scoreSection(s)}));
       const synthId='ptsynth_'+Date.now()+'_'+Math.random().toString(36).slice(2);
-      await postAI({action:'synthesizePlacement',requestId:synthId,candidate:state.candidate.name||'Student',objective:JSON.stringify(objective),productive:JSON.stringify(taskResults)});
+      const ctx=placementCloudContext();await postAI({action:'synthesizePlacement',requestId:synthId,studentId:ctx?.appState?.studentId||state.candidate.studentId||'',candidate:state.candidate.name||'Student',objective:JSON.stringify(objective),productive:JSON.stringify(taskResults)});
       const synth=await waitAIResult(synthId);if(!synth?.ok)throw Error(synth?.error||'Final placement synthesis failed.');
-      state.aiFinal={status:'complete',completedAt:new Date().toISOString(),taskResults,report:synth.report};saveState();answerTone('finish');renderCompletion();
+      let accessUpdate=null;try{accessUpdate=await applyPlacementAccess(synthId)}catch(accessErr){console.warn('Placement access update pending',accessErr)}state.aiFinal={status:'complete',completedAt:new Date().toISOString(),taskResults,report:synth.report,accessUpdate:accessUpdate?.access||null};saveState();answerTone('finish');renderCompletion();
     }catch(err){state.aiFinal={...(state.aiFinal||{}),status:'error',error:String(err.message||err)};saveState();showToast('AI grading failed: '+(err.message||err));renderCompletion()}
   }
 
@@ -351,7 +361,7 @@
           </div>
           <div class="notice"><strong>Saving:</strong> answers are saved on this device. When English Pathways cloud sync is connected, placement progress can also sync with the student profile. Voice recordings remain on the original device in this version.</div>
 
-          ${linkedProfile ? `<div class="linked-profile"><div class="linked-avatar">${escapeHtml((linkedProfile.name||'S').trim().charAt(0).toUpperCase())}</div><div><div class="helper">English Pathways student profile</div><strong>${escapeHtml(linkedProfile.name)}</strong>${linkedProfile.email?`<div class="linked-email">${escapeHtml(linkedProfile.email)}</div>`:''}<div class="linked-note">This placement test uses the same student profile automatically.</div></div></div>` : `<div class="form-grid candidate-fallback"><div class="field"><label for="candidateName">Candidate name</label><input id="candidateName" autocomplete="name" value="${escapeHtml(state.candidate.name)}" placeholder="Full name"></div><div class="field"><label for="candidateEmail">Email or candidate ID <span class="helper">(optional)</span></label><input id="candidateEmail" value="${escapeHtml(state.candidate.email)}" placeholder="Email or ID"></div></div>`}
+          ${linkedProfile ? `<div class="linked-profile"><div class="linked-avatar">${escapeHtml((linkedProfile.name||'S').trim().charAt(0).toUpperCase())}</div><div><div class="helper">English Pathways student profile</div><strong>${escapeHtml(linkedProfile.name)}</strong>${linkedProfile.email?`<div class="linked-email">${escapeHtml(linkedProfile.email)}</div>`:''}<div class="linked-note">This placement test uses the same student account automatically.</div></div></div>` : `<div class="notice warning"><strong>Student profile required.</strong> Return to English Pathways and create or restore your student account first. The placement test no longer creates a separate candidate profile.</div>`}
           <div class="form-grid placement-preferences">
             <div class="field">
               <label for="purpose">Purpose</label>
@@ -388,12 +398,13 @@
     document.getElementById('micCheck').addEventListener('click', runMicCheck);
     document.getElementById('beginTest').addEventListener('click', () => {
       const profile = linkedCourseProfile();
-      const name = profile?.name?.trim() || document.getElementById('candidateName')?.value.trim() || '';
-      const email = profile?.email?.trim() || document.getElementById('candidateEmail')?.value.trim() || '';
-      if (!name) return showToast('Enter the candidate name.');
+      if (!profile?.name) return showToast('Create or restore your English Pathways student profile first.');
+      const name = profile.name.trim();
+      const email = profile.email?.trim() || '';
       if (!document.getElementById('consent').checked) return showToast('Confirm the test conditions first.');
       state = freshState();
       state.candidate = {
+        studentId: profile?.studentId || '',
         name,
         email,
         purpose: document.getElementById('purpose').value,

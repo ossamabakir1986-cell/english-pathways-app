@@ -1,2 +1,3 @@
-English Pathways Mobile App Edition 4.5
-Friendly Pastel Visual Refresh, Contact Details & Compact Exit Confirmation
+English Pathways 5.0
+Unified Accounts, Admin Portal, Verified Access Control, Color & Illustration System
+Build: 2026-08-16
