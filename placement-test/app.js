@@ -24,6 +24,25 @@
   let placementCloudLast = 0;
   let placementCloudBusy = false;
 
+
+  function linkedCourseProfile() {
+    try {
+      const courseState = JSON.parse(localStorage.getItem('ep-state-v1') || 'null');
+      const profile = courseState?.profile || null;
+      if (courseState?.onboarded && profile?.name) return profile;
+    } catch (error) {}
+    return null;
+  }
+
+  function backToCourse() {
+    if (state.started && !state.finished && !state.paused) {
+      const leave = window.confirm('Return to English Pathways? Your answers are saved, but an active section timer will continue running.');
+      if (!leave) return;
+    }
+    try { saveState(); } catch (error) {}
+    window.location.href = '../';
+  }
+
   function freshState() {
     return {
       started: false,
@@ -74,6 +93,7 @@
   }
 
   let state = normalizeState(loadState() || freshState());
+  document.getElementById('courseBackButton')?.addEventListener('click', backToCourse);
 
   function loadState() {
     try {
@@ -315,6 +335,7 @@
 
   function renderWelcome() {
     headerSubtitle.textContent = 'Secure local examination';
+    const linkedProfile = linkedCourseProfile();
     const totalQuestions = DATA.sections.reduce((sum, s) => sum + s.questions.length, 0);
     screen.innerHTML = `
       <div class="center-shell">
@@ -328,17 +349,10 @@
             <div class="metric"><div class="metric-label">Estimated time</div><div class="metric-value">3h 30m</div></div>
             <div class="metric"><div class="metric-label">Export</div><div class="metric-value">ZIP</div></div>
           </div>
-          <div class="notice"><strong>Privacy:</strong> answers and recordings remain on this device. Nothing is uploaded automatically. At the end, download one ZIP file and upload it to ChatGPT for grading.</div>
+          <div class="notice"><strong>Saving:</strong> answers are saved on this device. When English Pathways cloud sync is connected, placement progress can also sync with the student profile. Voice recordings remain on the original device in this version.</div>
 
-          <div class="form-grid">
-            <div class="field">
-              <label for="candidateName">Candidate name</label>
-              <input id="candidateName" autocomplete="name" value="${escapeHtml(state.candidate.name)}" placeholder="Full name">
-            </div>
-            <div class="field">
-              <label for="candidateEmail">Email or candidate ID <span class="helper">(optional)</span></label>
-              <input id="candidateEmail" value="${escapeHtml(state.candidate.email)}" placeholder="Email or ID">
-            </div>
+          ${linkedProfile ? `<div class="linked-profile"><div class="linked-avatar">${escapeHtml((linkedProfile.name||'S').trim().charAt(0).toUpperCase())}</div><div><div class="helper">English Pathways student profile</div><strong>${escapeHtml(linkedProfile.name)}</strong>${linkedProfile.email?`<div class="linked-email">${escapeHtml(linkedProfile.email)}</div>`:''}<div class="linked-note">This placement test uses the same student profile automatically.</div></div></div>` : `<div class="form-grid candidate-fallback"><div class="field"><label for="candidateName">Candidate name</label><input id="candidateName" autocomplete="name" value="${escapeHtml(state.candidate.name)}" placeholder="Full name"></div><div class="field"><label for="candidateEmail">Email or candidate ID <span class="helper">(optional)</span></label><input id="candidateEmail" value="${escapeHtml(state.candidate.email)}" placeholder="Email or ID"></div></div>`}
+          <div class="form-grid placement-preferences">
             <div class="field">
               <label for="purpose">Purpose</label>
               <select id="purpose">
@@ -373,13 +387,15 @@
 
     document.getElementById('micCheck').addEventListener('click', runMicCheck);
     document.getElementById('beginTest').addEventListener('click', () => {
-      const name = document.getElementById('candidateName').value.trim();
+      const profile = linkedCourseProfile();
+      const name = profile?.name?.trim() || document.getElementById('candidateName')?.value.trim() || '';
+      const email = profile?.email?.trim() || document.getElementById('candidateEmail')?.value.trim() || '';
       if (!name) return showToast('Enter the candidate name.');
       if (!document.getElementById('consent').checked) return showToast('Confirm the test conditions first.');
       state = freshState();
       state.candidate = {
         name,
-        email: document.getElementById('candidateEmail').value.trim(),
+        email,
         purpose: document.getElementById('purpose').value,
         variety: document.getElementById('variety').value
       };

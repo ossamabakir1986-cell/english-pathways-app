@@ -1,13 +1,13 @@
-const CACHE='english-pathways-mobile-v4.3.0';
+const CACHE='english-pathways-mobile-v4.5.0';
 const CORE=[
   "./",
   "./app.js",
-  "./app.js?v=4.3",
+  "./app.js?v=4.5",
   "./config.js",
   "./course-data.js",
   "./lesson-enrichment.js",
   "./lesson-experience-v4.js",
-  "./lesson-experience-v4.js?v=4.3",
+  "./lesson-experience-v4.js?v=4.5",
   "./dictionary.js",
   "./icons/apple-touch-icon.png",
   "./icons/icon-192.png",
@@ -97,14 +97,18 @@ const CORE=[
   "./jszip.min.js",
   "./manifest.webmanifest",
   "./mobile-app.css",
-  "./mobile-app.css?v=4.3",
+  "./mobile-app.css?v=4.5",
   "./mobile-app.js",
+  "./mobile-app.js?v=4.5",
   "./placement-test/app.js",
+  "./placement-test/app.js?v=4.5",
   "./placement-test/exam-data.js",
   "./placement-test/index.html",
   "./placement-test/jszip.min.js",
   "./placement-test/styles.css",
+  "./placement-test/styles.css?v=4.5",
   "./prompts.js",
+  "./support-info.js",
   "./styles.css",
   "./دليل_الطالب_بالعربية.html"
 ];

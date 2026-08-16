@@ -246,3 +246,11 @@ button:active { transform:scale(.986); }
 .skill-level-grid strong { font-size:17px; }
 .locked-result { opacity:.78; }
 @media (max-width:700px) { .skill-level-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+
+
+/* English Pathways v4.4 integration */
+.course-back{width:36px;height:36px;min-width:36px;border-radius:50%;border:1px solid var(--border);background:white;color:var(--primary);font-size:20px;font-weight:900;display:grid;place-items:center;padding:0;margin-right:2px;box-shadow:0 4px 12px rgba(36,87,197,.08)}
+.course-back:hover{background:var(--primary-soft)}
+.linked-profile{margin-top:24px;display:flex;gap:14px;align-items:center;padding:16px 18px;border:1px solid var(--border);border-radius:12px;background:linear-gradient(135deg,var(--primary-soft),#fff)}
+.linked-avatar{width:48px;height:48px;flex:0 0 48px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:white;font-weight:900;font-size:20px}.linked-email{margin-top:2px;color:var(--muted);font-size:13px}.linked-note{margin-top:6px;color:#344054;font-size:13px}.placement-preferences{margin-top:18px}.candidate-fallback{margin-top:24px}
+@media(max-width:620px){.course-back{width:34px;height:34px;min-width:34px}.brand-title{font-size:14px}.linked-profile{align-items:flex-start}}

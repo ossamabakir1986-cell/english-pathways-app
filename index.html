@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#145e68">
+  <meta name="theme-color" content="#176f77">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="English Pathways">
@@ -14,10 +14,11 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="mobile-app.css?v=4.3">
+  <link rel="stylesheet" href="mobile-app.css?v=4.5">
 </head>
 <body data-view="loading">
   <header class="topbar appTopbar">
+    <button id="navBackBtn" class="navBackBtn" type="button" aria-label="Go back" title="Go back" hidden>←</button>
     <button id="homeBtn" class="brand" aria-label="Home"><span>EP</span><b>English Pathways</b></button>
     <nav class="desktopNav" aria-label="Main navigation">
       <button id="desktopHomeBtn">Home</button>
@@ -63,10 +64,11 @@
   <script src="config.js"></script>
   <script src="course-data.js"></script>
   <script src="lesson-enrichment.js"></script>
-  <script src="lesson-experience-v4.js?v=4.3"></script>
+  <script src="lesson-experience-v4.js?v=4.5"></script>
   <script src="dictionary.js"></script>
   <script src="prompts.js"></script>
-  <script src="app.js?v=4.3"></script>
-  <script src="mobile-app.js"></script>
+  <script src="support-info.js"></script>
+  <script src="app.js?v=4.5"></script>
+  <script src="mobile-app.js?v=4.5"></script>
 </body>
 </html>
