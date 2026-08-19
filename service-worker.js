@@ -1,8 +1,8 @@
-const CACHE='english-pathways-mobile-v5.0.2';
+const CACHE='english-pathways-mobile-v5.0.3';
 const CORE=[
   "./",
   "./app.js",
-  "./app.js?v=5.0.2",
+  "./app.js?v=5.0.3",
   "./admin/",
   "./admin/index.html",
   "./admin/admin.css",
@@ -103,9 +103,9 @@ const CORE=[
   "./jszip.min.js",
   "./manifest.webmanifest",
   "./mobile-app.css",
-  "./mobile-app.css?v=5.0.2",
+  "./mobile-app.css?v=5.0.3",
   "./mobile-app.js",
-  "./mobile-app.js?v=5.0.2",
+  "./mobile-app.js?v=5.0.3",
   "./placement-test/app.js",
   "./placement-test/app.js?v=5.0",
   "./placement-test/exam-data.js",
@@ -115,6 +115,8 @@ const CORE=[
   "./placement-test/styles.css?v=5.0",
   "./prompts.js",
   "./support-info.js",
+  "./ui-language.js",
+  "./ui-language.js?v=5.0.3",
   "./styles.css",
   "./دليل_الطالب_بالعربية.html"
 ];

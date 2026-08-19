@@ -1193,3 +1193,41 @@ body[data-skill*="writing"] .lessonHead{background:linear-gradient(125deg,#ffe9d
 .adminEntryCard .adminShield{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#6857e8,#4e9ef3);color:#fff;font-size:24px;box-shadow:0 10px 22px rgba(83,72,190,.18)}
 .adminActionCard{border-color:color-mix(in srgb,#6857e8 30%,var(--line))!important;background:linear-gradient(145deg,#eee9ff,#eef8ff)!important}
 @media(max-width:760px){.topActions .adminTopBtn{display:none}}
+
+/* ===== v5.0.3 Arabic-friendly interface ===== */
+.languageTopBtn{min-width:56px;padding-inline:10px;font-weight:850;letter-spacing:0;border-radius:999px}
+.uiLanguageCard{margin-top:16px;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 9%,var(--panel)),color-mix(in srgb,#7c5cff 7%,var(--panel)))}
+.uiLanguageInline{margin:0 0 18px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--primary) 20%,var(--line));border-radius:18px;background:color-mix(in srgb,var(--panel) 90%,transparent);backdrop-filter:blur(10px)}
+.uiLanguagePanelInner{display:flex;align-items:center;justify-content:space-between;gap:20px}
+.uiLanguagePanelInner h2{margin:3px 0 5px;font-size:clamp(18px,2vw,24px)}
+.uiLanguagePanelInner p{margin:0;max-width:70ch;color:var(--muted);line-height:1.6}
+.uiLanguageChoices{display:flex;gap:8px;flex:0 0 auto;padding:5px;background:var(--soft);border-radius:999px}
+.uiLanguageChoices button{border:0;background:transparent;color:var(--text);padding:9px 14px;border-radius:999px;font-weight:850;cursor:pointer}
+.uiLanguageChoices button.active{background:var(--primary);color:#fff;box-shadow:0 5px 16px color-mix(in srgb,var(--primary) 28%,transparent)}
+html[data-ui-language="ar"] body:not([data-view="lesson"]):not([data-view="exam"]) #screen,
+html[data-ui-language="ar"] .installPanel,
+html[data-ui-language="ar"] .offlineNotice,
+html[data-ui-language="ar"] #toast{direction:rtl;text-align:right;font-family:Tahoma,Arial,"Segoe UI",sans-serif}
+html[data-ui-language="ar"] body[data-view="lesson"] #screen,
+html[data-ui-language="ar"] body[data-view="exam"] #screen{direction:ltr;text-align:left}
+html[data-ui-language="ar"] #screen input[type="email"],
+html[data-ui-language="ar"] #screen input[type="tel"],
+html[data-ui-language="ar"] #screen .contactMethod strong,
+html[data-ui-language="ar"] #screen .accessLevelStrip,
+html[data-ui-language="ar"] #screen .syncMini{direction:ltr;text-align:left}
+html[data-ui-language="ar"] body[data-view="course"] .unitHead h2,
+html[data-ui-language="ar"] body[data-view="course"] .unitHead small,
+html[data-ui-language="ar"] body[data-view="course"] .unitTopic,
+html[data-ui-language="ar"] body[data-view="course"] .lessonRow>div:nth-child(2),
+html[data-ui-language="ar"] body[data-view="course"] .hero>h1,
+html[data-ui-language="ar"] body[data-view="course"] .hero>.lead,
+html[data-ui-language="ar"] body[data-view="dashboard"] .dashboardHero .lead{direction:ltr;text-align:left;unicode-bidi:plaintext}
+html[data-ui-language="ar"] .practiceHero b{direction:ltr;unicode-bidi:isolate;display:inline-block}
+html[data-ui-language="ar"] .field label,
+html[data-ui-language="ar"] .field small,
+html[data-ui-language="ar"] .notice,
+html[data-ui-language="ar"] details summary,
+html[data-ui-language="ar"] details p{line-height:1.75}
+html[data-ui-language="ar"] .buttons{justify-content:flex-start}
+html[data-ui-language="ar"] .contactMethod span{direction:rtl}
+@media(max-width:720px){.languageTopBtn{min-width:46px;padding:8px}.uiLanguagePanelInner{align-items:stretch;flex-direction:column}.uiLanguageChoices{align-self:stretch;display:grid;grid-template-columns:1fr 1fr}.uiLanguageChoices button{width:100%}.uiLanguageInline{margin-bottom:14px}}

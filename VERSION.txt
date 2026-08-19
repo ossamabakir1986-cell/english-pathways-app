@@ -1,2 +1,6 @@
-English Pathways v5.0.2
-Administration Access Update
+English Pathways v5.0.3 — Arabic-Friendly Interface
+
+Student-facing app panels can switch between English and Arabic.
+Lessons, exercises, placement testing, and formal assessment content remain in English.
+The interface language is saved to the student profile and local device preference.
+This package is cumulative over v5.0.2 and retains the Administration access entry points.

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" dir="ltr" data-ui-language="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -14,7 +14,7 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="mobile-app.css?v=5.0.2">
+  <link rel="stylesheet" href="mobile-app.css?v=5.0.3">
 </head>
 <body data-view="loading">
   <header class="topbar appTopbar">
@@ -30,6 +30,7 @@
     <div class="topActions">
       <button id="moreBtn" aria-label="More tools and settings" title="More tools and settings">⚙</button>
       <button id="adminBtn" class="adminTopBtn" type="button" aria-label="Administration" title="Administration">🛡</button>
+      <button id="languageBtn" class="languageTopBtn" type="button" aria-label="تحويل واجهة التطبيق إلى العربية" title="تحويل واجهة التطبيق إلى العربية" data-ui-no-translate>العربية</button>
       <span id="connectionPill" class="connectionPill" hidden>Offline</span>
       <button id="installTopBtn" class="installTopBtn" type="button">Install</button>
       <button id="themeBtn" aria-label="Change theme">◐</button>
@@ -69,7 +70,8 @@
   <script src="dictionary.js"></script>
   <script src="prompts.js"></script>
   <script src="support-info.js"></script>
-  <script src="app.js?v=5.0.2"></script>
-  <script src="mobile-app.js?v=5.0.2"></script>
+  <script src="app.js?v=5.0.3"></script>
+  <script src="mobile-app.js?v=5.0.3"></script>
+  <script src="ui-language.js?v=5.0.3"></script>
 </body>
 </html>
