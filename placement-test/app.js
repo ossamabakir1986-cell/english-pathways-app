@@ -2,9 +2,10 @@
 (() => {
   'use strict';
 
+  const SHORT = Boolean(window.EP_SHORT);
   const DATA = window.EXAM_DATA;
-  const STORAGE_KEY = 'english-placement-test-state-v2';
-  const DB_NAME = 'EnglishPlacementTestAudio';
+  const STORAGE_KEY = SHORT ? 'english-placement-short-state-v1' : 'english-placement-test-state-v2';
+  const DB_NAME = SHORT ? 'EnglishPlacementShortAudio' : 'EnglishPlacementTestAudio';
   const DB_STORE = 'recordings';
 
   const screen = document.getElementById('screen');
@@ -40,7 +41,7 @@
       if (!leave) return;
     }
     try { saveState(); } catch (error) {}
-    window.location.href = '../';
+    window.location.href = SHORT ? '../../' : '../';
   }
 
   function freshState() {
@@ -186,7 +187,7 @@
     }finally{placementCloudBusy=false}
   }
   function queuePlacementCloudSync(force=false){
-    if(!placementCloudContext())return;
+    if(SHORT || !placementCloudContext())return;
     if(force){clearTimeout(placementCloudTimer);placementCloudTimer=setTimeout(pushPlacementCloudSync,650);return}
     if(placementCloudTimer||placementCloudBusy)return;
     const wait=Math.max(2500,45000-(Date.now()-placementCloudLast));
@@ -229,11 +230,25 @@
         const r=await waitAIResult(requestId);if(!r?.ok)throw Error(r?.error||'Speaking grading failed.');
         taskResults.push({id:q.id,skill:'speaking',grading:r.grading});
       }
-      const objective=DATA.sections.filter(s=>scoreSection(s).gradable).map(s=>({id:s.id,title:s.title,score:scoreSection(s)}));
+      const objective=DATA.sections.filter(s=>scoreSection(s).gradable).map(s=>({id:s.id,title:s.title,score:scoreSection(s),...(SHORT?{assessment:'shorter diagnostic; limited evidence',items:s.questions.map(q=>({level:q.level,answered:isAnswered(q),correct:state.responses[q.id]?.selected===q.answer}))}:{})}));
       const synthId='ptsynth_'+Date.now()+'_'+Math.random().toString(36).slice(2);
       const ctx=placementCloudContext();await postAI({action:'synthesizePlacement',requestId:synthId,studentId:ctx?.appState?.studentId||state.candidate.studentId||'',candidate:state.candidate.name||'Student',objective:JSON.stringify(objective),productive:JSON.stringify(taskResults)});
       const synth=await waitAIResult(synthId);if(!synth?.ok)throw Error(synth?.error||'Final placement synthesis failed.');
-      let accessUpdate=null;try{accessUpdate=await applyPlacementAccess(synthId)}catch(accessErr){console.warn('Placement access update pending',accessErr)}state.aiFinal={status:'complete',completedAt:new Date().toISOString(),taskResults,report:synth.report,accessUpdate:accessUpdate?.access||null};saveState();answerTone('finish');renderCompletion();
+      let accessUpdate=null, accessMessage='';
+      try {
+        if (SHORT) {
+          const context=placementCloudContext();
+          if(!context) throw Error('Connect cloud sync in your student profile, then re-run AI grading to unlock your level.');
+          if(DATA.sections.flatMap(s=>s.questions).some(q=>!isAnswered(q))) throw Error('Answer every question and task before using this result to unlock a level.');
+          const level=String(synth.report?.overallLevel||''); if(!levelRank(level)) throw Error('The AI did not return a recognised course level. Re-run grading or ask your teacher.');
+          const remote=await aiJsonp({action:'accessLoad',studentId:context.appState.studentId||'',email:context.sync.email,auth:context.sync.auth||'',credential:context.sync.credential||''});
+          if(!remote?.ok) throw Error(remote?.error||'Could not check existing course access.');
+          const existing=String(remote.access?.verifiedLevel||'A1').replace('_','.');
+          if(levelRank(existing)>=levelRank(level)) {accessUpdate={access:remote.access};accessMessage='Your existing course access is already at or above this result and remains unchanged.'}
+          else {accessUpdate=await applyPlacementAccess(synthId);if(!accessUpdate?.access)throw Error('The course access update was not confirmed.');accessMessage='Your course access has been updated to '+level+'.'}
+        } else {accessUpdate=await applyPlacementAccess(synthId);}
+      } catch(accessErr) { accessMessage='Course access was not updated: '+String(accessErr.message||accessErr);console.warn('Placement access update pending',accessErr); }
+      state.aiFinal={status:'complete',completedAt:new Date().toISOString(),taskResults,report:synth.report,accessUpdate:accessUpdate?.access||null,accessMessage};saveState();answerTone('finish');renderCompletion();
     }catch(err){state.aiFinal={...(state.aiFinal||{}),status:'error',error:String(err.message||err)};saveState();showToast('AI grading failed: '+(err.message||err));renderCompletion()}
   }
 
@@ -356,7 +371,7 @@
           <div class="metrics">
             <div class="metric"><div class="metric-label">Sections</div><div class="metric-value">${DATA.sections.length}</div></div>
             <div class="metric"><div class="metric-label">Questions & tasks</div><div class="metric-value">${totalQuestions}</div></div>
-            <div class="metric"><div class="metric-label">Estimated time</div><div class="metric-value">3h 30m</div></div>
+            <div class="metric"><div class="metric-label">Time allowed</div><div class="metric-value">${SHORT ? '55 min' : '3h 30m'}</div></div>
             <div class="metric"><div class="metric-label">Export</div><div class="metric-value">ZIP</div></div>
           </div>
           <div class="notice"><strong>Saving:</strong> answers are saved on this device. When English Pathways cloud sync is connected, placement progress can also sync with the student profile. Voice recordings remain on the original device in this version.</div>
@@ -377,6 +392,7 @@
             </div>
           </div>
 
+          <div class="notice" style="margin-top:16px">${SHORT ? 'Standard test: complete all tasks and use AI grading to unlock the recommended level on your connected student account. The result is provisional. This attempt is saved on this device. <a href="../index.html">Open comprehensive test</a>' : 'Want a shorter assessment? <a href="short/index.html">Open the 55-minute standard test</a>. Your comprehensive attempt stays separate.'}</div>
           <h2 style="margin-top:32px">Test sections</h2>
           <div class="section-list">
             ${DATA.sections.map((s,i)=>`<div class="section-list-item"><div class="section-number">${i+1}</div><div><strong>${escapeHtml(s.title)}</strong><div class="section-meta">${s.questions.length} questions/tasks</div></div><div class="section-time">${s.durationMinutes} min</div></div>`).join('')}
@@ -952,7 +968,7 @@
           <div class="completion-hero">
             <div class="completion-icon">✓</div>
             <div class="eyebrow">Completed</div>
-            <h1>Examination finished</h1>
+            <h1>Examination finished</h1>${SHORT ? '<div class="notice warning">Standard test result is provisional and not yet validated. Complete all tasks and use AI grading to update course access on a connected account; teacher review is recommended.</div>' : ''}
             <p class="lead" style="margin-left:auto;margin-right:auto">The examination is now locked. Objective scores and correct answers are available. Writing and speaking can now be graded with AI.</p>
           </div>
           <div class="metrics">
@@ -962,6 +978,7 @@
             <div class="metric"><div class="metric-label">Sections</div><div class="metric-value">${DATA.sections.length}</div></div>
           </div>
           ${aiHtml}
+          ${SHORT && ai?.accessMessage ? `<div class="notice"><strong>Course access:</strong> ${escapeHtml(ai.accessMessage)}</div>` : ''}
           <div class="notice success"><strong>Results unlocked:</strong> open any completed section below to see marks, correct answers and explanations.</div>
           <div class="results-dashboard">
             <h2>Section results</h2>

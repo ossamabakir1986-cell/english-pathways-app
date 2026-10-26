@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comprehensive English Placement Test</title>
+  <link rel="stylesheet" href="../styles.css?v=5.0">
+</head>
+<body>
+  <noscript>This test requires JavaScript.</noscript>
+  <div id="app">
+    <header class="topbar">
+      <button class="course-back" id="courseBackButton" type="button" aria-label="Back to English Pathways" title="Back to English Pathways">←</button>
+      <div class="brand">
+        <div class="brand-mark">EP</div>
+        <div>
+          <div class="brand-title">English Placement Test</div>
+          <div class="brand-subtitle" id="headerSubtitle">Secure local examination</div>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="save-indicator" id="saveIndicator">Saved locally</span>
+        <button class="icon-button" id="helpButton" type="button" aria-label="Open help">?</button>
+      </div>
+    </header>
+
+    <main id="screen" class="screen"></main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <div id="modalRoot"></div>
+  </div>
+
+  <script src="../jszip.min.js"></script>
+  <script src="../../config.js"></script>
+  <script>window.EP_SHORT = true;</script>
+  <script src="exam-data.js"></script>
+  <script src="../app.js?v=standard1"></script>
+</body>
+</html>
