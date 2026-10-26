@@ -2,9 +2,10 @@
 (() => {
   'use strict';
 
+  const SHORT = Boolean(window.EP_SHORT);
   const DATA = window.EXAM_DATA;
-  const STORAGE_KEY = 'english-placement-test-state-v2';
-  const DB_NAME = 'EnglishPlacementTestAudio';
+  const STORAGE_KEY = SHORT ? 'english-placement-short-state-v1' : 'english-placement-test-state-v2';
+  const DB_NAME = SHORT ? 'EnglishPlacementShortAudio' : 'EnglishPlacementTestAudio';
   const DB_STORE = 'recordings';
 
   const screen = document.getElementById('screen');
@@ -40,7 +41,7 @@
       if (!leave) return;
     }
     try { saveState(); } catch (error) {}
-    window.location.href = '../';
+    window.location.href = SHORT ? '../../' : '../';
   }
 
   function freshState() {
@@ -156,6 +157,7 @@
   async function waitAIResult(requestId,tries=55){for(let i=0;i<tries;i++){await new Promise(r=>setTimeout(r,i<3?900:1300));const a=await aiJsonp({action:'result',requestId});if(a?.status==='ready')return a.result;if(a?.status==='error')throw Error(a.error||'AI task failed.')}throw Error('AI grading did not finish in time.')}
   function blobBase64(blob){return new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(String(r.result).split(',')[1]||'');r.onerror=()=>no(r.error);r.readAsDataURL(blob)})}
   function placementCloudContext(){
+    if (SHORT) return null;
     try{
       const appState=JSON.parse(localStorage.getItem('ep-state-v1')||'null');
       const sync=appState?.sync||{};
@@ -233,7 +235,7 @@
       const synthId='ptsynth_'+Date.now()+'_'+Math.random().toString(36).slice(2);
       const ctx=placementCloudContext();await postAI({action:'synthesizePlacement',requestId:synthId,studentId:ctx?.appState?.studentId||state.candidate.studentId||'',candidate:state.candidate.name||'Student',objective:JSON.stringify(objective),productive:JSON.stringify(taskResults)});
       const synth=await waitAIResult(synthId);if(!synth?.ok)throw Error(synth?.error||'Final placement synthesis failed.');
-      let accessUpdate=null;try{accessUpdate=await applyPlacementAccess(synthId)}catch(accessErr){console.warn('Placement access update pending',accessErr)}state.aiFinal={status:'complete',completedAt:new Date().toISOString(),taskResults,report:synth.report,accessUpdate:accessUpdate?.access||null};saveState();answerTone('finish');renderCompletion();
+      let accessUpdate=null;try{if (!SHORT) accessUpdate=await applyPlacementAccess(synthId)}catch(accessErr){console.warn('Placement access update pending',accessErr)}state.aiFinal={status:'complete',completedAt:new Date().toISOString(),taskResults,report:synth.report,accessUpdate:accessUpdate?.access||null};saveState();answerTone('finish');renderCompletion();
     }catch(err){state.aiFinal={...(state.aiFinal||{}),status:'error',error:String(err.message||err)};saveState();showToast('AI grading failed: '+(err.message||err));renderCompletion()}
   }
 
@@ -356,7 +358,7 @@
           <div class="metrics">
             <div class="metric"><div class="metric-label">Sections</div><div class="metric-value">${DATA.sections.length}</div></div>
             <div class="metric"><div class="metric-label">Questions & tasks</div><div class="metric-value">${totalQuestions}</div></div>
-            <div class="metric"><div class="metric-label">Estimated time</div><div class="metric-value">3h 30m</div></div>
+            <div class="metric"><div class="metric-label">Time allowed</div><div class="metric-value">${SHORT ? '55 min' : '3h 30m'}</div></div>
             <div class="metric"><div class="metric-label">Export</div><div class="metric-value">ZIP</div></div>
           </div>
           <div class="notice"><strong>Saving:</strong> answers are saved on this device. When English Pathways cloud sync is connected, placement progress can also sync with the student profile. Voice recordings remain on the original device in this version.</div>
@@ -377,6 +379,7 @@
             </div>
           </div>
 
+          <div class="notice" style="margin-top:16px">${SHORT ? 'Standard test: provisional result; this attempt is saved on this device and does not automatically change course access. <a href="../index.html">Open comprehensive test</a>' : 'Want a shorter assessment? <a href="short/index.html">Open the 55-minute standard test</a>. Your comprehensive attempt stays separate.'}</div>
           <h2 style="margin-top:32px">Test sections</h2>
           <div class="section-list">
             ${DATA.sections.map((s,i)=>`<div class="section-list-item"><div class="section-number">${i+1}</div><div><strong>${escapeHtml(s.title)}</strong><div class="section-meta">${s.questions.length} questions/tasks</div></div><div class="section-time">${s.durationMinutes} min</div></div>`).join('')}
@@ -952,7 +955,7 @@
           <div class="completion-hero">
             <div class="completion-icon">✓</div>
             <div class="eyebrow">Completed</div>
-            <h1>Examination finished</h1>
+            <h1>Examination finished</h1>${SHORT ? '<div class="notice warning">Standard test result is provisional and not yet validated. It does not automatically change course access. A teacher should review your result.</div>' : ''}
             <p class="lead" style="margin-left:auto;margin-right:auto">The examination is now locked. Objective scores and correct answers are available. Writing and speaking can now be graded with AI.</p>
           </div>
           <div class="metrics">
